@@ -7,9 +7,15 @@
   --font-nunito: "Nunito", sans-serif;
   --color-primary: #f97316; /* orange-500 */
   --color-primary-foreground: #ffffff;
+  --color-secondary: #fff7ed; /* orange-50 */
+  --color-secondary-foreground: #b45309; /* orange-700 */
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
   *, ::before, ::after {
     @apply border-gray-200;
   }

@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-nunito">
+      <body className="font-nunito" suppressHydrationWarning={true}>
         <main className="min-h-screen">
           <Header />
           {children}
