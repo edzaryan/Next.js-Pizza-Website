@@ -9,3 +9,4 @@ export { RangeSlider } from "./range-slider";
 export { CheckboxFiltersGroup } from "./checkbox-filters-group";
 export { TopBar } from "./top-bar";
 export { ProductsGroupList } from "./products-group-list";
+export { SearchInput } from "./search-input";

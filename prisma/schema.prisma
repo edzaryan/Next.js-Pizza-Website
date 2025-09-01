@@ -6,7 +6,6 @@ generator client {
 datasource db {
     provider    = "postgresql"
     url         = env("POSTGRES_URL")
-    directUrl   = env("POSTGRES_URL_NON_POOLING")
 }
 
 model User {
@@ -16,6 +15,7 @@ model User {
     email       String      @unique
     password    String
     role        UserRole    @default(USER)
+    verified    DateTime    
 
     provider    String?
     providerId  String?
@@ -30,9 +30,7 @@ model User {
 
 model Category {
     id          Int         @id @default(autoincrement())
-
     name        String      @unique
-
     products    Product[]
 
     createdAt   DateTime    @default(now())
@@ -84,15 +82,12 @@ model Ingredient {
 
 model Cart {
     id          Int         @id @default(autoincrement())
+    items       CartItem[]
+    token       String
+    totalAmount Int         @default(0)
 
     user        User?       @relation(fields: [userId], references: [id])
     userId      Int?        @unique
-
-    items       CartItem[]
-
-    token       String
-
-    totalAmount Int         @default(0)
 
     createdAt   DateTime    @default(now())
     updatedAt   DateTime    @updatedAt
@@ -101,13 +96,13 @@ model Cart {
 model CartItem {
     id          Int         @id @default(autoincrement())
 
+    quantity    Int  
+
     cart        Cart        @relation(fields: [cartId], references: [id])
     cartId      Int
 
     productItem ProductItem @relation(fields: [productItemId], references: [id])
     productItemId Int
-
-    quantity    Int  
 
     ingredients Ingredient[]
 
@@ -148,7 +143,7 @@ model VerificationCode {
     code        String      @unique
 
     createdAt   DateTime    @default(now())
-    
+
     @@unique([userId, code])
 }
 

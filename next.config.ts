@@ -2,7 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["media.dodostatic.net"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.dodostatic.net",
+      },
+    ],
+  },
+  turbopack: {
+    root: process.cwd(),
   },
 };
 
