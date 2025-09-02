@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Title } from "./title";
 import { Input } from "@/components/ui";
 import { RangeSlider } from "./range-slider";
@@ -14,35 +15,60 @@ interface Props {
 }
 
 interface PriceProps {
-    priceFrom: number;
-    priceTo: number;
+    priceFrom?: number;
+    priceTo?: number;
+}
+
+interface QueryFilters extends PriceProps {
+    pizzaTypes: string;
+    sizes: string;
+    ingredients: string;
 }
 
 export const Filters = ({ className }: Props) => {
-    const { ingredients, loading, onAddId, selectedIngredients } = useFilterIngredients();
-    const [sizes, { toggle: toggleSizes }] = useSet(new Set<string>([]));
-    const [pizzaTypes, { toggle: togglePizzaTypes }] = useSet(new Set<string>([]));
-    const [prices, setPrice] = useState<PriceProps>({ priceFrom: 0, priceTo: 1000 });
+    const searchParams = useSearchParams() as unknown as Map<keyof QueryFilters, string>;
+    const router = useRouter();
+
+    const { ingredients, loading, onAddId, selectedIngredients } = useFilterIngredients(
+        searchParams.get("ingredients")?.split(",")
+    );
+    const [sizes, { toggle: toggleSizes }] = useSet(new Set<string>(
+        searchParams.has("sizes") ? searchParams.get("sizes")?.split(",") : []));
+    const [pizzaTypes, { toggle: togglePizzaTypes }] = useSet(new Set<string>(
+        searchParams.has("pizzaTypes") ? searchParams.get("pizzaTypes")?.split(",") : []));
+    const [prices, setPrice] = useState<PriceProps>({
+        priceFrom: Number(searchParams.get("priceFrom")) || undefined,
+        priceTo: Number(searchParams.get("priceTo")) || undefined,
+    });
 
     const ingredientsItems = ingredients.map(ingredient => ({
         value: String(ingredient.id),
         text: ingredient.name
     }));
 
-    const updatePrice = (name: keyof PriceProps, value: number) => {
+    const updatePrice = (name: keyof PriceProps, value: number | undefined) => {
         setPrice({ ...prices, [name]: value });
     }
 
     useEffect(() => {
-        const filters = {
+        const filters: any = {
             ...prices,
             pizzaTypes: Array.from(pizzaTypes),
             sizes: Array.from(sizes),
             ingredients: Array.from(selectedIngredients)
         };
 
-        console.log(qs.stringify(filters));
-    }, [prices, pizzaTypes, sizes, selectedIngredients]);
+        // Remove undefined values
+        Object.keys(filters).forEach(key => {
+            if (filters[key] === undefined) {
+                delete filters[key];
+            }
+        });
+
+        const query = qs.stringify(filters, { arrayFormat: "comma", encode: false });
+        router.push(`?${query}`, { scroll: false });
+
+    }, [prices, pizzaTypes, sizes, selectedIngredients, router]);
 
     return (
         <div className={className}>
@@ -81,16 +107,16 @@ export const Filters = ({ className }: Props) => {
                         placeholder="0" 
                         min={0} 
                         max={1000} 
-                        value={String(prices.priceFrom)} 
-                        onChange={(e) => updatePrice("priceFrom", Number(e.target.value))}
+                        value={prices.priceFrom ? String(prices.priceFrom) : ""} 
+                        onChange={(e) => updatePrice("priceFrom", e.target.value ? Number(e.target.value) : undefined)}
                     />
                     <Input 
                         type="number" 
                         placeholder="1000" 
                         min={100} 
                         max={1000} 
-                        value={String(prices.priceTo)} 
-                        onChange={(e) => updatePrice("priceTo", Number(e.target.value))}
+                        value={prices.priceTo ? String(prices.priceTo) : ""} 
+                        onChange={(e) => updatePrice("priceTo", e.target.value ? Number(e.target.value) : undefined)}
                     />
                 </div>
 
@@ -98,7 +124,7 @@ export const Filters = ({ className }: Props) => {
                     min={0} 
                     max={1000} 
                     step={10} 
-                    value={[prices.priceFrom,prices.priceTo]} 
+                    value={[prices.priceFrom || 0, prices.priceTo || 1000]} 
                     onValueChange={([priceFrom, priceTo]) => setPrice({ priceFrom, priceTo })}
                 />
             </div>
