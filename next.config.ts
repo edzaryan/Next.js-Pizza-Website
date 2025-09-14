@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "media.dodostatic.net",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.dodostatic.net",
+      },
     ],
   },
   turbopack: {

@@ -1,6 +1,6 @@
 import { prisma } from "@/prisma/prisma-client";
 import { notFound } from "next/navigation";
-import { Container, ProductImage, Title, GroupVariants } from "@/components/shared";
+import { Container, ProductImage, Title, GroupVariants } from "@/shared/components/shared";
 
 export default async function ProductPage(
     { params }: { params: Promise<{ id: string }> }) 
