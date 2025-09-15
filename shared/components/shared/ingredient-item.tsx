@@ -1,6 +1,6 @@
+import Image from "next/image";
 import { cn } from "@/shared/lib/utils";
 import { CircleCheck } from "lucide-react";
-import Image from "next/image";
 
 interface Props {
     className?: string;
@@ -15,15 +15,15 @@ export const IngredientItem = ({ className, name, price, imageUrl, onClick, acti
     return (
         <div 
             className={cn(
-                'flex items-center flex-col p-1 rounded-md w-32 text-center relative cursor-pointer shadow-md bg-white',
+                'flex items-center flex-col p-1 rounded-xl text-center relative cursor-pointer shadow-sm bg-white',
                 { 'border border-primary' : active },
                 className)} 
             onClick={onClick}
         >
             {active && <CircleCheck className="absolute top-2 right-2 text-primary" />}
             <Image width={110} height={110} src={imageUrl} alt={name} />
-            <span className="text-xs mb-1">{name}</span>
-            <span className="font-bold">{price} ₽</span>
+            <div className="text-xs mb-1">{name}</div>
+            <div className="font-bold">{price} ₽</div>
         </div>
     )
 }

@@ -1,12 +1,12 @@
 "use client";
+import { useState } from "react";
 import { cn } from "@/shared/lib/utils";
 import { PizzaImage } from "./pizza-image";
 import { Title } from "./title";
 import { Button } from "../ui";
 import { GroupVariants } from "./group-variants";
 import { PizzaSize, PizzaType, pizzaSizes, pizzaTypes, mapPizzaType } from "@/shared/constants/pizza";
-import { useState } from "react";
-import { Ingredient } from "@prisma/client";
+import { Ingredient, ProductItem } from "@prisma/client";
 import { IngredientItem } from "./ingredient-item";
 import { useSet } from "react-use";
 
@@ -15,18 +15,31 @@ interface Props {
     name: string;
     className?: string;
     ingredients: Ingredient[];
-    items?: any[];
-    onClickAdd?: VoidFunction;
+    items: ProductItem[];
+    onClickAddCart?: VoidFunction;
 }
 
-export const ChoosePizzaForm = ({ className, imageUrl, name, ingredients, items }: Props) => {
+export const ChoosePizzaForm = ({ className, imageUrl, name, ingredients, items, onClickAddCart }: Props) => {
     const [size, setSize] = useState<PizzaSize>(20);
     const [type, setType] = useState<PizzaType>(1);
     const [selectedIngredients, { toggle: addIngredient }] = useSet(new Set<number>([]));
-
-    const textDetails = `${size} cm, ${mapPizzaType[type]} pizza`;
-    const totalPrice = 350;
     
+    const pizzaPrice = items
+        .find(item => item.pizzaType === type && item.size === size)!.price;
+
+    const totalIngredientsPrice = ingredients
+        .filter(ingredient => selectedIngredients.has(ingredient.id))
+        .reduce((acc, ingredient) => acc + ingredient.price, 0);
+
+    const totalPrice = pizzaPrice + totalIngredientsPrice;
+    const textDetails = `${size} cm, ${mapPizzaType[type]} pizza`;
+
+    const handleClickAdd = () => {
+        onClickAddCart?.();
+    }
+
+    const availablePizzaSize = items.filter(item => item.pizzaType === type);
+
     return (
         <div className={cn(className, "flex flex-1")}>
             <PizzaImage imageUrl={imageUrl} size={size} />
@@ -50,8 +63,8 @@ export const ChoosePizzaForm = ({ className, imageUrl, name, ingredients, items 
                     className="mt-2"
                 />
 
-                <div className="mt-5 p-5 bg-gray-50 rounded-md h-[420px] overflow-auto scrollbar">
-                    <div className="grid grid-cols-3 gap-3">
+                <div className="mt-5 bg-gray-50 rounded-md max-h-[420px] overflow-auto scrollbar">
+                    <div className="grid grid-cols-3 gap-2 p-4">
                         {ingredients.map(ingredient => (
                             <IngredientItem 
                                 key={ingredient.id} 
@@ -63,7 +76,9 @@ export const ChoosePizzaForm = ({ className, imageUrl, name, ingredients, items 
                     </div>
                 </div>
 
-                <Button className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
+                <Button 
+                    onClick={handleClickAdd}
+                    className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
                     Add to cart {totalPrice} ₽
                 </Button>
             </div>
