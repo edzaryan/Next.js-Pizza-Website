@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/shared/lib/utils";
 import { PizzaImage } from "./pizza-image";
 import { Title } from "./title";
@@ -25,21 +25,35 @@ export const ChoosePizzaForm = ({ className, imageUrl, name, ingredients, items,
     const [selectedIngredients, { toggle: addIngredient }] = useSet(new Set<number>([]));
     
     const pizzaPrice = items
-        .find(item => item.pizzaType === type && item.size === size)!.price;
-
+        .find(item => item.pizzaType === type && item.size === size)?.price || 0;
     const totalIngredientsPrice = ingredients
         .filter(ingredient => selectedIngredients.has(ingredient.id))
         .reduce((acc, ingredient) => acc + ingredient.price, 0);
-
     const totalPrice = pizzaPrice + totalIngredientsPrice;
     const textDetails = `${size} cm, ${mapPizzaType[type]} pizza`;
+
+    const filteredPizzasByType = items.filter(item => item.pizzaType === type);
+    const availablePizzaSizes = pizzaSizes.map(item => ({
+        name: item.name,
+        value: item.value,
+        disabled: !filteredPizzasByType.some(pizza => Number(pizza.size) === Number(item.value))
+    }));
+
+    useEffect(() => {
+        const isAvailableSize = availablePizzaSizes?.find(
+            item => Number(item.value) === size && !item.disabled
+        );
+        const availableSize = availablePizzaSizes?.find(item => !item.disabled);
+
+        if (!isAvailableSize && availableSize) {
+            setSize(Number(availableSize.value) as PizzaSize);
+        }
+    }, [type]);
 
     const handleClickAdd = () => {
         onClickAddCart?.();
     }
-
-    const availablePizzaSize = items.filter(item => item.pizzaType === type);
-
+    
     return (
         <div className={cn(className, "flex flex-1")}>
             <PizzaImage imageUrl={imageUrl} size={size} />
@@ -50,7 +64,7 @@ export const ChoosePizzaForm = ({ className, imageUrl, name, ingredients, items,
                 <div className="text-gray-400">{textDetails}</div>
 
                 <GroupVariants 
-                    items={pizzaSizes} 
+                    items={availablePizzaSizes} 
                     value={String(size)} 
                     onClick={value => setSize(Number(value) as PizzaSize)} 
                     className="mt-5"
