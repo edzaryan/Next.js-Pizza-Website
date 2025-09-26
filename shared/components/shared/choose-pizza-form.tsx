@@ -16,27 +16,27 @@ interface Props {
     className?: string;
     ingredients: Ingredient[];
     items: ProductItem[];
-    onClickAddCart?: VoidFunction;
+    onSubmit: (itemId: number, ingredients: number[]) => void;
 }
 
-export const ChoosePizzaForm = ({ className, imageUrl, name, ingredients, items, onClickAddCart }: Props) => {
-    const { 
-        size, 
-        type, 
-        setSize, 
-        setType, 
-        selectedIngredients, 
-        availableSizes, 
-        addIngredient
-    } = usePizzaOptions(items);
+export const ChoosePizzaForm = ({ 
+    name, 
+    items, 
+    imageUrl, 
+    className, 
+    ingredients, 
+    onSubmit 
+}: Props) => {
+    const { size, type, setSize, setType, selectedIngredients, availableSizes, currentItemId, addIngredient } = 
+        usePizzaOptions(items);
 
-    const { 
-        totalPrice, 
-        textDetails 
-    } = getPizzaDetails(type, size, items, ingredients, selectedIngredients);
+    const { totalPrice, textDetails } = 
+        getPizzaDetails(type, size, items, ingredients, selectedIngredients);
 
     const handleClickAdd = () => {
-        onClickAddCart?.();
+        if (currentItemId) {
+            onSubmit(currentItemId, Array.from(selectedIngredients));
+        }
     }
     
     return (

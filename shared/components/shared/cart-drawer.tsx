@@ -22,13 +22,24 @@ interface Props {
 }
 
 export const CartDrawer = ({ children, className }: PropsWithChildren<Props>) => {
-    const totalAmount = useCartStore((state) => state.totalAmount);
     const items = useCartStore((state) => state.items);
+    const totalAmount = useCartStore((state) => state.totalAmount);
     const fetchCartItems = useCartStore((state) => state.fetchCartItems);
+    const removeCartItem = useCartStore((state) => state.removeCartItem);
+    const updateItemQuantity = useCartStore((state) => state.updateItemQuantity);
 
     useEffect(() => {
         fetchCartItems();
     }, [fetchCartItems]);
+
+    const onClickCountButton = (id: number, quantity: number, type: "plus" | "minus") => {
+        const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
+        updateItemQuantity(id, newQuantity);
+    };
+
+    const onClickRemoveButton = (id: number) => {
+        removeCartItem(id);
+    };
 
     return (
         <Sheet>
@@ -42,26 +53,27 @@ export const CartDrawer = ({ children, className }: PropsWithChildren<Props>) =>
                 </SheetHeader>
 
                 <div className="mt-5 overflow-auto flex-1">
-                    <div className="mb-2">
-                        {
-                            items.map(item => (
-                                <CartDrawerItem 
-                                    key={item.id}
-                                    id={item.id}
-                                    imageUrl={item.imageUrl}
-                                    details={item.pizzaSize && item.type 
-                                        ? getCartItemDetails(
-                                            item.ingredients, 
-                                            item.type as PizzaType, 
-                                            item.pizzaSize as PizzaSize) 
-                                        : ""}
-                                    name={item.name}
-                                    price={item.price}
-                                    quantity={item.quantity}
-                                />
-                            ))
-                        }
-                    </div>
+                {
+                    items.map(item => (
+                        <div key={item.id} className="mb-2">
+                            <CartDrawerItem 
+                                id={item.id}
+                                imageUrl={item.imageUrl}
+                                details={item.pizzaSize && item.pizzaType 
+                                    ? getCartItemDetails(
+                                        item.ingredients, 
+                                        item.pizzaType as PizzaType, 
+                                        item.pizzaSize as PizzaSize) 
+                                    : ""}
+                                name={item.name}
+                                price={item.price}
+                                quantity={item.quantity}
+                                onClickCountButton={(type) => onClickCountButton(item.id, item.quantity, type)}
+                                onClickRemoveButton={() => onClickRemoveButton(item.id)}
+                            />
+                        </div>
+                    ))
+                }
                 </div>
 
                 <SheetFooter className="p-8 bg-white ">

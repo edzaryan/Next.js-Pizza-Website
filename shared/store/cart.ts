@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { getCartDetails } from "../lib";
 import { Api } from "../services/api-client";
+import { CreateCartItemValues } from "../services/dto/cart.dto";
 
 export type ICartItem = {
     id: number;
@@ -9,7 +10,7 @@ export type ICartItem = {
     imageUrl: string;
     price: number;
     pizzaSize?: number | null;
-    type?: number | null;
+    pizzaType?: number | null;
     ingredients: Array<{ name: string; price: number }>;
 };
 
@@ -58,19 +59,27 @@ export const useCartStore = create<CartState>((set, get) => ({
         }
     },
 
-    addCartItem: async (values: any) => {
+    addCartItem: async (values: CreateCartItemValues) => {
         try {
-            // Update local state
+            set({ loading: true, error: false });
+            const data = await Api.cart.addCartItem(values);
+            set(getCartDetails(data));
         } catch (error) {
             set({ error: true });
+        } finally {
+            set({ loading: false });
         }
     },
 
     removeCartItem: async (id: number) => {
         try {
-            // Update local state
+            set({ loading: true, error: false });
+            const data = await Api.cart.removeCartItem(id);
+            set(getCartDetails(data));
         } catch (error) {
             set({ error: true });
+        } finally {
+            set({ loading: false });
         }
     },
 }));

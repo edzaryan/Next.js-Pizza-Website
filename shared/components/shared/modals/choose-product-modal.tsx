@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/shared/
 import { ProductWithRelations } from "@/@types/prisma";
 import { ChoosePizzaForm } from "../choose-pizza-form";
 import { ChooseProductForm } from "../choose-product-form";
+import { useCartStore } from "@/shared/store/cart";
 
 interface Props {
     product: ProductWithRelations | null;
@@ -13,10 +14,25 @@ interface Props {
 
 export const ChooseProductModal = ({ className, product }: Props) => {
     const router = useRouter();
-    const isPizzaForm = Boolean(product?.items[0].pizzaType);
+    const firstItem = product?.items[0];
+    const isPizzaForm = Boolean(firstItem?.pizzaType);
+    const addCartItem = useCartStore((state) => state.addCartItem);
 
     if (!product) {
         return null;
+    }
+
+    const onAddProduct = () => {
+        addCartItem({
+            productItemId: firstItem?.id,
+        });
+    }
+
+    const onAddPizza = (productItemId: number, ingredients: number[]) => {
+        addCartItem({
+            productItemId,
+            ingredients
+        });
     }
 
     return (
@@ -32,15 +48,14 @@ export const ChooseProductModal = ({ className, product }: Props) => {
                 </DialogDescription>
                 {isPizzaForm ? (
                     <ChoosePizzaForm 
-                        imageUrl={product.imageUrl} 
-                        name={product.name} 
-                        ingredients={product.ingredients} 
-                        items={product.items}
-                    />
+                        {...product} 
+                        onSubmit={onAddPizza} />
                 ) : (
                     <ChooseProductForm 
                         imageUrl={product.imageUrl} 
                         name={product.name} 
+                        onSubmit={onAddProduct}
+                        price={firstItem?.price || 0}
                     />
                 )}
             </DialogContent>

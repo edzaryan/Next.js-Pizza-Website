@@ -20,9 +20,15 @@ const generateProductItem = (
         pizzaType?: 1 | 2;
         size?: 20 | 30 | 40;
     }) => {
+        // Calculate price based on size (larger = more expensive)
+        let basePrice = 190;
+        if (size === 20) basePrice = 190; // Small
+        if (size === 30) basePrice = 290; // Medium  
+        if (size === 40) basePrice = 390; // Large
+        
         return {
             productId,
-            price: randomDecimalNumber(190, 600),
+            price: basePrice + randomDecimalNumber(0, 100), // Base price + small random variation
             pizzaType,
             size
         } as Prisma.ProductItemUncheckedCreateInput
@@ -162,6 +168,57 @@ async function up() {
             }
         }
     });
+
+    // Add 2nd cart item
+    await prisma.cartItem.create({
+        data: {
+            productItemId: 3,
+            cartId: 1,
+            quantity: 1,
+            ingredients: {
+                connect: [{ id: 4 }, { id: 5 }]
+            }
+        }
+    });
+
+    // Add 3rd cart item
+    await prisma.cartItem.create({
+        data: {
+            productItemId: 5,
+            cartId: 1,
+            quantity: 3,
+            ingredients: {
+                connect: [{ id: 1 }, { id: 6 }, { id: 7 }]
+            }
+        }
+    });
+
+    // Manually update cart total amount (productItem price + ingredients)
+    // ProductItem 1 should have a price around 190-600, let's get it and calculate
+    const cartWithItems = await prisma.cart.findFirst({
+        where: { token: "11111" },
+        include: {
+            items: {
+                include: {
+                    productItem: true,
+                    ingredients: true
+                }
+            }
+        }
+    });
+
+    if (cartWithItems) {
+        const totalAmount = cartWithItems.items.reduce((acc, item) => {
+            const itemPrice = item.productItem.price;
+            const ingredientsPrice = item.ingredients.reduce((sum, ing) => sum + ing.price, 0);
+            return acc + (itemPrice + ingredientsPrice) * item.quantity;
+        }, 0);
+
+        await prisma.cart.update({
+            where: { id: cartWithItems.id },
+            data: { totalAmount }
+        });
+    }
 }
 
 async function down() {
