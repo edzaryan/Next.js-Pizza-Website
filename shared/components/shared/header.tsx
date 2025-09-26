@@ -32,7 +32,7 @@ export const Header = ({ className }: Props) => {
                 
                 <div className="flex items-center gap-3">
                     <Button variant="orangeOutline" className="flex items-center gap-[6px]">
-                        <User size={16} strokeWidth={2} />
+                        <User size={17} />
                         Login
                     </Button>
                     <CartButton className="group relative" />

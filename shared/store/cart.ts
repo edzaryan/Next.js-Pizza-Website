@@ -39,11 +39,9 @@ export const useCartStore = create<CartState>((set, get) => ({
         try {
             set({ loading: true, error: false });
             const data = await Api.cart.getCart();
-            set(getCartDetails(data));
+            set({ ...getCartDetails(data), loading: false });
         } catch (error) {
-            set({ error: true });
-        } finally {
-            set({ loading: false });
+            set({ error: true, loading: false });
         }
     },
 
@@ -51,11 +49,9 @@ export const useCartStore = create<CartState>((set, get) => ({
         try {
             set({ loading: true, error: false });
             const data = await Api.cart.updateItemQuantity(id, quantity);
-            set(getCartDetails(data));
+            set({ ...getCartDetails(data), loading: false });
         } catch (error) {
-            set({ error: true });
-        } finally {
-            set({ loading: false });
+            set({ error: true, loading: false });
         }
     },
 
@@ -63,11 +59,9 @@ export const useCartStore = create<CartState>((set, get) => ({
         try {
             set({ loading: true, error: false });
             const data = await Api.cart.addCartItem(values);
-            set(getCartDetails(data));
+            set({ ...getCartDetails(data), loading: false });
         } catch (error) {
-            set({ error: true });
-        } finally {
-            set({ loading: false });
+            set({ error: true, loading: false });
         }
     },
 
@@ -75,11 +69,9 @@ export const useCartStore = create<CartState>((set, get) => ({
         try {
             set({ loading: true, error: false });
             const data = await Api.cart.removeCartItem(id);
-            set(getCartDetails(data));
+            set({ ...getCartDetails(data), loading: false });
         } catch (error) {
-            set({ error: true });
-        } finally {
-            set({ loading: false });
+            set({ error: true, loading: false });
         }
     },
 }));

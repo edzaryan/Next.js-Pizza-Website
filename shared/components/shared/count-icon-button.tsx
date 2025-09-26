@@ -1,5 +1,4 @@
 import { Button } from '../ui/button';
-import { Minus, Plus } from 'lucide-react';
 import { CountButtonProps } from './count-button';
 import { cn } from '@/shared/lib/utils';
 
@@ -18,14 +17,12 @@ export const CountIconButton = ({ size = 'sm', disabled, type, onClick }: IconBu
       onClick={onClick}
       type="button"
       className={cn(
-        'p-0 border-orange-500 text-orange-600 hover:bg-orange-600 hover:text-white disabled:bg-white disabled:border-gray-400 disabled:text-gray-400',
+        'p-0 border-primary text-primary hover:bg-primary hover:text-primary-foreground disabled:bg-white disabled:border-gray-400 disabled:text-gray-400',
         size === 'sm' ? 'w-[30px] h-[30px] rounded-[10px]' : 'w-[38px] h-[38px] rounded-md',
       )}>
-      {type === 'plus' ? (
-        <Plus className={size === 'sm' ? 'h-4' : 'h-5'} />
-      ) : (
-        <Minus className={size === 'sm' ? 'h-4' : 'h-5'} />
-      )}
+      <span className={`${size === 'sm' ? 'text-sm' : 'text-base'} font-bold leading-none select-none`}>
+        {type === 'plus' ? '+' : '−'}
+      </span>
     </Button>
   );
 };
