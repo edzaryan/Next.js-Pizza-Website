@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Title } from "./title";
 import { Button } from "../ui";
 import { Plus } from "lucide-react";
+import { Ingredient } from "@prisma/client";
 
 interface Props {
     id: number;
@@ -11,9 +12,10 @@ interface Props {
     price: number;
     imageUrl: string;
     className?: string;
+    ingredients: Ingredient[];
 }
 
-export const ProductCard = ({ id, name, price, imageUrl, className }: Props) => {
+export const ProductCard = ({ id, name, price, imageUrl, className, ingredients }: Props) => {
     return (
         <div className={className}>
             <Link href={`/product/${id}`}>
@@ -30,8 +32,9 @@ export const ProductCard = ({ id, name, price, imageUrl, className }: Props) => 
                 <Title text={name} size="sm" className="mb-1 mt-3 font-bold" />
 
                 <p className="text-sm text-gray-400">
-                    This is some demo text that we made to fit in this box. we use only mini 
-                    word sets so it can look we made to fit.
+                    {
+                        ingredients.map(ingredient => ingredient.name).join(', ')
+                    }
                 </p>
 
                 <div className="flex justify-between items-center mt-4">
