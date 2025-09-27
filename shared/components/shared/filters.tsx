@@ -1,4 +1,5 @@
 "use client";
+
 import { Title } from "./title";
 import { Input } from "@/shared/components/ui";
 import { RangeSlider } from "./range-slider";
