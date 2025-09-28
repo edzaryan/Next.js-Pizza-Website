@@ -5,17 +5,17 @@ import { useCartStore } from "@/shared/store/cart";
 import toast from "react-hot-toast";
 
 interface Props {
-    className?: string;
     product: ProductWithRelations;
+    onSubmit?: VoidFunction;
 }
 
-export const ProductForm = ({ product, className }: Props) => {
+export const ProductForm = ({ product, onSubmit }: Props) => {
     const addCartItem = useCartStore((state) => state.addCartItem);
     const loading = useCartStore((state) => state.loading);
     const firstItem = product?.items[0];
     const isPizzaForm = Boolean(firstItem?.pizzaType);
 
-    const onSubmit = async (productItemId?: number, ingredients?: number[]) => {
+    const onHandleSubmit = async (productItemId?: number, ingredients?: number[]) => {
         const itemId = productItemId || firstItem?.id;
         
         if (!itemId) {
@@ -31,6 +31,7 @@ export const ProductForm = ({ product, className }: Props) => {
             
             const successMessage = `${product.name} added to cart`;
             toast.success(successMessage);
+            onSubmit?.();
         } catch (error) {
             const errorMessage = `Failed to add ${product.name} to cart`;
             toast.error(errorMessage);
@@ -41,7 +42,7 @@ export const ProductForm = ({ product, className }: Props) => {
         return (
             <ChoosePizzaForm 
                 {...product} 
-                onSubmit={onSubmit} 
+                onSubmit={onHandleSubmit} 
                 loading={loading} 
             />
         )
@@ -50,7 +51,7 @@ export const ProductForm = ({ product, className }: Props) => {
     return (
         <ChooseProductForm 
             {...product}
-            onSubmit={() => onSubmit()}
+            onSubmit={() => onHandleSubmit()}
             price={firstItem?.price || 0}
             loading={loading}
         />
