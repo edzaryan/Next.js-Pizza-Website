@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSet } from "react-use";
+import { useState } from "react";
 
 interface PriceProps {
     priceFrom?: number;
