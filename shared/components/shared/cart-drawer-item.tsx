@@ -1,29 +1,34 @@
 "use client";
 
-import { cn } from "@/shared/lib/utils";
-import { Trash2Icon } from "lucide-react";
-import { CountButton } from "./count-button";
-import * as CartItem from "./cart-item-details";
 import { CartItemProps } from "./cart-item-details/cart-item-details.types";
+import * as CartItem from "./cart-item-details";
+import { CountButton } from "./count-button";
+import { Trash2Icon } from "lucide-react";
+import { cn } from "@/shared/lib/utils";
 
 interface Props extends CartItemProps {
-    className?: string;
-    onClickRemoveButton?: () => void;
     onClickCountButton?: (type: "plus" | "minus") => void;
+    onClickRemoveButton?: () => void;
+    className?: string;
 }
 
 export const CartDrawerItem = ({ 
-    name,
-    price,
-    details, 
-    imageUrl,  
-    quantity, 
-    className, 
+    onClickRemoveButton,
     onClickCountButton,
-    onClickRemoveButton 
+    imageUrl,  
+    className, 
+    disabled,
+    quantity, 
+    details, 
+    price,
+    name,
 }: Props) => {
     return (
-        <div className={cn("flex bg-white p-5 gap-6", className)}>
+        <div className={cn(
+            "flex bg-white p-5 gap-6",
+            {"opacity-50 pointer-events-none" : disabled},
+            className
+        )}>
             <CartItem.Image src={imageUrl} />
 
             <div className="flex-1">
