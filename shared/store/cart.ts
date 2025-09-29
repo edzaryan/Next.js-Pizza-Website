@@ -11,6 +11,7 @@ export type ICartItem = {
     price: number;
     pizzaSize?: number | null;
     pizzaType?: number | null;
+    disabled?: boolean;
     ingredients: Array<{ name: string; price: number }>;
 };
 

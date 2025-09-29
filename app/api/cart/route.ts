@@ -15,23 +15,13 @@ export async function GET(req: NextRequest) {
       }
   
       const userCart = await prisma.cart.findFirst({
-        where: {
-          OR: [
-            {
-              token,
-            },
-          ],
-        },
+        where: { token },
         include: {
           items: {
-            orderBy: {
-              createdAt: 'desc',
-            },
+            orderBy: { createdAt: 'desc' },
             include: {
               productItem: {
-                include: {
-                  product: true,
-                },
+                include: { product: true }
               },
               ingredients: true,
             },
@@ -39,67 +29,59 @@ export async function GET(req: NextRequest) {
         },
       });
   
-      return NextResponse.json(userCart);
+      return NextResponse.json(userCart || { totalAmount: 0, items: [] });
     } catch (error) {
       console.log('[CART_GET] Server error', error);
-      return NextResponse.json({ message: 'Не удалось получить корзину' }, { status: 500 });
+      return NextResponse.json({ message: 'Failed to fetch cart' }, { status: 500 });
     }
 }
 
 export async function POST(req: NextRequest) {
-    try {
-        let token = req.cookies.get("cartToken")?.value;
+  try {
+    let token = req.cookies.get('cartToken')?.value;
 
-        if (!token) {
-            token = crypto.randomUUID();
-        }
-
-        const userCart = await findOrCreateCart(token);
-
-        const data = (await req.json()) as CreateCartItemValues;
-
-        const existingCartItems = await prisma.cartItem.findMany({
-            where: {
-                cartId: userCart.id,
-                productItemId: data.productItemId,
-            },
-            include: {
-                ingredients: true
-            }
-        });
-
-        const findCartItem = existingCartItems.find(item => {
-            const existingIngredientIds = item.ingredients.map(ing => ing.id).sort();
-            const newIngredientIds = (data.ingredients || []).sort();
-            
-            return existingIngredientIds.length === newIngredientIds.length &&
-                   existingIngredientIds.every((id, index) => id === newIngredientIds[index]);
-        });
-
-        if (findCartItem) {
-            await prisma.cartItem.update({
-                where: { id: findCartItem.id },
-                data: { quantity: findCartItem.quantity + 1 }
-            });
-        } else {
-            await prisma.cartItem.create({
-                data: {
-                    cartId: userCart.id,
-                    productItemId: data.productItemId,
-                    quantity: 1,
-                    ingredients: {
-                        connect: data.ingredients?.map(id => ({ id })) 
-                    }
-                }
-            });
-        }
-
-        const updatedUserCart = await updateCartTotalAmount(token);
-
-        const response = NextResponse.json(updatedUserCart);
-        response.cookies.set("cartToken", token);
-        return response;
-    } catch (error) {
-        return NextResponse.json({ messsage: "Internal server error: Cart fetching failed" }, { status: 500 });
+    if (!token) {
+      token = crypto.randomUUID();
     }
+
+    const userCart = await findOrCreateCart(token);
+    const data = (await req.json()) as CreateCartItemValues;
+
+    const findCartItem = await prisma.cartItem.findFirst({
+      where: {
+        cartId: userCart.id,
+        productItemId: data.productItemId,
+      },
+      include: { ingredients: true }
+    });
+
+    const ingredientIds = data.ingredients?.sort() || [];
+    const hasExactMatch = findCartItem && 
+      findCartItem.ingredients.length === ingredientIds.length &&
+      findCartItem.ingredients.every(ing => ingredientIds.includes(ing.id));
+
+    if (hasExactMatch) {
+      await prisma.cartItem.update({
+        where: { id: findCartItem.id },
+        data: { quantity: findCartItem.quantity + 1 }
+      });
+    } else {
+      await prisma.cartItem.create({
+        data: {
+          cartId: userCart.id,
+          productItemId: data.productItemId,
+          quantity: 1,
+          ingredients: { connect: ingredientIds.map(id => ({ id })) }
+        }
+      });
+    }
+
+    const updatedUserCart = await updateCartTotalAmount(token);
+    const resp = NextResponse.json(updatedUserCart);
+    resp.cookies.set('cartToken', token);
+    return resp;
+  } catch (error) {
+    console.log('[CART_POST] Server error', error);
+    return NextResponse.json({ message: 'Failed to create cart item' }, { status: 500 });
+  }
 }
