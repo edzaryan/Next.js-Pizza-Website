@@ -7,3 +7,5 @@ export { Drawer } from "./drawer";
 export { Popover } from "./popover";
 export { Skeleton } from "./skeleton";
 export { Slider } from "./slider";
+export { Sheet } from "./sheet";
+export { Textarea } from "./textarea";

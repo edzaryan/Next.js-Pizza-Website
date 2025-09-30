@@ -1,4 +1,5 @@
 export { CheckboxFiltersGroup } from "./checkbox-filters-group";
+export { CheckoutItemDetails } from "./checkout-item-details";
 export { PizzaImage as ProductImage } from "./pizza-image";
 export { ProductsGroupList } from "./products-group-list";
 export { ChooseProductForm } from "./choose-product-form";
@@ -11,6 +12,7 @@ export { SearchInput } from "./search-input";
 export { ProductForm } from "./product-form";
 export { CartButton } from "./cart-button";
 export { CartDrawer } from "./cart-drawer";
+export { WhiteBlock } from "./white-block";
 export { Categories } from "./categories";
 export { SortPopup } from "./sort-popup";
 export { Container } from "./container";

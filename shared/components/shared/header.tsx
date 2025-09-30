@@ -1,20 +1,22 @@
-import React from "react";
-import { Container } from "./container";
-import { cn } from "@/shared/lib/utils";
-import { Button } from "../ui";
-import { User } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
 import { SearchInput } from "./search-input";
 import { CartButton } from "./cart-button";
+import { Container } from "./container";
+import { cn } from "@/shared/lib/utils";
+import { User } from "lucide-react";
+import { Button } from "../ui";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 interface Props { 
     className?: string;
+    hasSearch?: boolean;
+    hasCart?: boolean;
 }
 
-export const Header = ({ className }: Props) => {
+export const Header = ({ className, hasSearch = true, hasCart = true }: Props) => {
     return (
-        <header className={cn("border border-b", className)}>
+        <header className={cn("border-b", className)}>
             <Container className="flex items-center justify-between py-8">
                 <Link href="/">
                     <div className="flex items-center gap-4">
@@ -26,16 +28,18 @@ export const Header = ({ className }: Props) => {
                     </div>
                 </Link>
 
-                <div className="mx-10 flex-1">
-                    <SearchInput className="flex-1" />
-                </div>
+                {hasSearch && (
+                    <div className="mx-10 flex-1">
+                        <SearchInput className="flex-1" />
+                    </div>
+                )}
                 
                 <div className="flex items-center gap-3">
                     <Button variant="orangeOutline" className="flex items-center gap-[6px]">
                         <User size={17} />
                         Login
                     </Button>
-                    <CartButton className="group relative" />
+                    {hasCart && <CartButton className="group relative" />}
                 </div>
             </Container>
         </header>
