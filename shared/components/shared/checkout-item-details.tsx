@@ -2,8 +2,8 @@ import { cn } from "@/shared/lib/utils";
 
 interface Props {
     title?: React.ReactNode;
-    value?: string;
     className?: string;
+    value?: string;
 }
 
 export const CheckoutItemDetails = ({ className, title, value }: Props) => {

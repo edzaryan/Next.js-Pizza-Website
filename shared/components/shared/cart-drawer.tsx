@@ -1,32 +1,19 @@
 "use client";
 import { Sheet, SheetTrigger, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetClose } from '@/shared/components/ui/sheet';
 import { PizzaType, PizzaSize } from "@/shared/constants/pizza";
-import { PropsWithChildren, useEffect } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { CartDrawerItem } from "./cart-drawer-item";
-import { useCartStore } from "@/shared/store/cart";
 import { getCartItemDetails } from "@/shared/lib";
-import { cn } from "@/shared/lib/utils";
+import { PropsWithChildren } from "react";
+import { useCart } from "@/shared/hooks";
 import { Button } from "../ui/button";
 import { Title } from "./title";
 import Image from "next/image";
 import Link from "next/link";
 
 
-interface Props {
-    className?: string;
-}
-
-export const CartDrawer = ({ children, className }: PropsWithChildren<Props>) => {
-    const items = useCartStore((state) => state.items);
-    const totalAmount = useCartStore((state) => state.totalAmount);
-    const fetchCartItems = useCartStore((state) => state.fetchCartItems);
-    const removeCartItem = useCartStore((state) => state.removeCartItem);
-    const updateItemQuantity = useCartStore((state) => state.updateItemQuantity);
-
-    useEffect(() => {
-        fetchCartItems();
-    }, [fetchCartItems]);
+export const CartDrawer = ({ children }: PropsWithChildren) => {
+    const { totalAmount, items, removeCartItem, updateItemQuantity } = useCart();
 
     const onClickCountButton = (id: number, quantity: number, type: "plus" | "minus") => {
         const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
@@ -49,7 +36,6 @@ export const CartDrawer = ({ children, className }: PropsWithChildren<Props>) =>
                         </SheetTitle>
                     </SheetHeader>
                 )}
-
                 {!totalAmount && (
                     <div className="flex flex-col h-full items-center justify-center w-72 mx-auto">
                         <Image src="/assets/images/empty-box.png" alt="cart-empty" width={120} height={120} />
@@ -65,7 +51,6 @@ export const CartDrawer = ({ children, className }: PropsWithChildren<Props>) =>
                         </SheetClose>
                     </div>
                 )}
-
                 {totalAmount > 0 && <>
                     <div className="mt-5 overflow-auto flex-1">
                     {
@@ -74,12 +59,13 @@ export const CartDrawer = ({ children, className }: PropsWithChildren<Props>) =>
                                 <CartDrawerItem 
                                     id={item.id}
                                     imageUrl={item.imageUrl}
-                                    details={item.pizzaSize && item.pizzaType 
-                                        ? getCartItemDetails(
+                                    details={
+                                        getCartItemDetails(
                                             item.ingredients, 
                                             item.pizzaType as PizzaType, 
-                                            item.pizzaSize as PizzaSize) 
-                                        : ""}
+                                            item.pizzaSize as PizzaSize
+                                        ) 
+                                    }
                                     name={item.name}
                                     disabled={item.disabled}
                                     price={item.price}

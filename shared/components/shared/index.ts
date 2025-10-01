@@ -1,5 +1,6 @@
 export { CheckboxFiltersGroup } from "./checkbox-filters-group";
 export { CheckoutItemDetails } from "./checkout-item-details";
+export { CheckoutItemSkeleton } from "./cart-item-skeleton";
 export { PizzaImage as ProductImage } from "./pizza-image";
 export { ProductsGroupList } from "./products-group-list";
 export { ChooseProductForm } from "./choose-product-form";
@@ -7,6 +8,7 @@ export { ChoosePizzaForm } from "./choose-pizza-form";
 export { FilterCheckbox } from "./filter-checkbox";
 export { IngredientItem } from "./ingredient-item";
 export { GroupVariants } from "./group-variants";
+export { CheckoutItem } from "./checkout-item";
 export { RangeSlider } from "./range-slider";
 export { SearchInput } from "./search-input";
 export { ProductForm } from "./product-form";
