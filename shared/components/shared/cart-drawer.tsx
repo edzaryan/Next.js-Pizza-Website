@@ -7,13 +7,14 @@ import { getCartItemDetails } from "@/shared/lib";
 import { PropsWithChildren } from "react";
 import { useCart } from "@/shared/hooks";
 import { Button } from "../ui/button";
+import { useState } from "react";
 import { Title } from "./title";
 import Image from "next/image";
 import Link from "next/link";
 
-
 export const CartDrawer = ({ children }: PropsWithChildren) => {
     const { totalAmount, items, removeCartItem, updateItemQuantity } = useCart();
+    const [redirect, setRedirect] = useState(false);
 
     const onClickCountButton = (id: number, quantity: number, type: "plus" | "minus") => {
         const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
@@ -87,8 +88,12 @@ export const CartDrawer = ({ children }: PropsWithChildren) => {
                             <span className="font-bold text-lg">{totalAmount} ₽</span>
                         </div>
 
-                        <Link href="/cart">
-                            <Button type="submit" className="w-full h-12 text-base">
+                        <Link href="/checkout">
+                            <Button
+                                onClick={() => setRedirect(true)}
+                                loading={redirect} 
+                                type="submit" 
+                                className="w-full h-12 text-base">
                                 Place Order
                                 <ArrowRight className="w-5 ml-2" />
                             </Button>
