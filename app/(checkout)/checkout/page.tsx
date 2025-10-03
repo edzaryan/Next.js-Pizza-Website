@@ -1,10 +1,8 @@
 "use client";
-import { CheckoutPersonalForm, CheckoutAddressForm, CheckoutCard } from "@/shared/components/shared/checkout";
-import { CheckoutFormValues, checkoutFormSchema } from "@/shared/components/shared/checkout/checkout-form-schema";
-import { CheckoutSidebar } from "@/shared/components/shared/checkout-sidebar";
-import { Container, Title } from "@/shared/components/shared";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { CheckoutFormValues, checkoutFormSchema, CheckoutPersonalForm, CheckoutAddressForm, CheckoutCard } from "@/shared/components";
+import { CheckoutSidebar, Container, Title } from "@/shared/components/shared";
 import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useCart } from "@/shared/hooks";
 
 export default function CheckoutPage() {

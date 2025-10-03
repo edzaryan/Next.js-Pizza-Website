@@ -1,3 +1,4 @@
+"use client";
 import { PizzaType, PizzaSize } from "@/shared/constants/pizza";
 import { CartStateItem } from "@/shared/lib/get-cart-details";
 import { getCartItemDetails } from "@/shared/lib";
