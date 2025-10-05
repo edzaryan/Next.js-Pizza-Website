@@ -13,7 +13,7 @@ export const CheckoutAddressForm = ({ className }: Props) => {
     const { control } = useFormContext();
 
     return (
-        <WhiteBlock title="3. Delivery Address">
+        <WhiteBlock title="3. Delivery Address" className={className}>
             <div className="flex flex-col gap-3">
                 <div>
                     <Controller 

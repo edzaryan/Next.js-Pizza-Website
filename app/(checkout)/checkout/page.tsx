@@ -3,10 +3,12 @@ import { CheckoutFormValues, checkoutFormSchema, CheckoutPersonalForm, CheckoutA
 import { CheckoutSidebar, Container, Title } from "@/shared/components/shared";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { createOrder } from "@/app/actions";
 import { useCart } from "@/shared/hooks";
+import toast from "react-hot-toast";
 
 export default function CheckoutPage() {
-    const { totalAmount, items, removeCartItem, updateItemQuantity } = useCart();
+    const { totalAmount, items, removeCartItem, updateItemQuantity, loading } = useCart();
 
     const form = useForm<CheckoutFormValues>({
         resolver: zodResolver(checkoutFormSchema),
@@ -20,8 +22,12 @@ export default function CheckoutPage() {
         }
     });
 
-    const onSubmit = (data: CheckoutFormValues) => {
-        console.log(data);
+    const onSubmit = async (data: CheckoutFormValues) => {
+        try {
+            await createOrder(data);
+        } catch (err) {
+            toast.error("Failed to create order", { icon: "❌" });
+        }
     };
 
     const onClickCountButton = (id: number, quantity: number, type: "plus" | "minus") => {
@@ -40,16 +46,17 @@ export default function CheckoutPage() {
                             <CheckoutCard
                                 onClickCountButton={onClickCountButton}
                                 removeCartItem={removeCartItem}
+                                loading={loading}
                                 items={items}
                             />
 
-                            <CheckoutPersonalForm />
+                            <CheckoutPersonalForm className={loading && "opacity-40 pointer-events-none"} />
 
-                            <CheckoutAddressForm />
+                            <CheckoutAddressForm className={loading && "opacity-40 pointer-events-none"} />
                         </div>
 
                         <div className="w-[450px]">
-                            <CheckoutSidebar totalAmount={totalAmount} />
+                            <CheckoutSidebar totalAmount={totalAmount} loading={loading} />
                         </div>
                     </div>
                 </form>

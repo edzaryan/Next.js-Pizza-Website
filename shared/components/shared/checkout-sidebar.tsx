@@ -4,6 +4,7 @@ import { WhiteBlock } from "./white-block";
 import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "@/shared/lib/utils";
+import { Skeleton } from "..";
 
 const VAT = 15;
 const DELIVERY_PRICE = 250;
@@ -11,10 +12,10 @@ const DELIVERY_PRICE = 250;
 interface Props {
     totalAmount: number;
     className?: string;
+    loading?: boolean;
 }
 
-export const CheckoutSidebar = ({ className, totalAmount }: Props) => {
-
+export const CheckoutSidebar = ({ className, totalAmount, loading }: Props) => {
     const vatPrice = (totalAmount * VAT) / 100;
     const totalPrice = totalAmount + vatPrice + DELIVERY_PRICE;
 
@@ -22,12 +23,16 @@ export const CheckoutSidebar = ({ className, totalAmount }: Props) => {
         <WhiteBlock className={cn("p-6 sticky top-4", className)}>
             <div className="flex flex-col gap-2">
                 <span className="text-xl">Total Amount:</span>
-                <span className="text-[34px] font-extrabold">{totalPrice} ₽</span>
+                {
+                    loading 
+                        ? <Skeleton className="w-51 h-13" /> 
+                        : <span className="text-[34px] font-extrabold">{totalPrice} ₽</span>
+                }
             </div>
 
             <CheckoutItemDetails 
                 className="mt-5"
-                value={`${totalAmount} ₽`}
+                value={loading ? <Skeleton className="w-16 h-[28px] rounded-[6px]" /> : `${totalAmount} ₽`}
                 title={
                     <div className="flex items-center">
                         <Package size={18} className="mr-2 text-gray-400" />
@@ -37,7 +42,7 @@ export const CheckoutSidebar = ({ className, totalAmount }: Props) => {
             />
             <CheckoutItemDetails 
                 className="mt-5"
-                value={`${VAT} ₽`}
+                value={loading ? <Skeleton className="w-16 h-[28px] rounded-[6px]" /> : `${VAT} ₽`}
                 title={
                     <div className="flex items-center">
                         <Percent size={18} className="mr-2 text-gray-400" />
@@ -47,7 +52,7 @@ export const CheckoutSidebar = ({ className, totalAmount }: Props) => {
             />
             <CheckoutItemDetails 
                 className="mt-5"
-                value={`${DELIVERY_PRICE} ₽`}
+                value={loading ? <Skeleton className="w-16 h-[28px] rounded-[6px]" /> : `${DELIVERY_PRICE} ₽`}
                 title={
                     <div className="flex items-center">
                         <Truck size={18} className="mr-2 text-gray-400" />
