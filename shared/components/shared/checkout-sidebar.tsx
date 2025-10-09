@@ -2,8 +2,8 @@ import { CheckoutItemDetails } from "./checkout-item-details";
 import { Package, Percent, Truck } from "lucide-react";
 import { WhiteBlock } from "./white-block";
 import { ArrowRight } from "lucide-react";
-import { Button } from "../ui/button";
 import { cn } from "@/shared/lib/utils";
+import { Button } from "../ui/button";
 import { Skeleton } from "..";
 
 const VAT = 15;
@@ -61,7 +61,10 @@ export const CheckoutSidebar = ({ className, totalAmount, loading }: Props) => {
                 }  
             />
 
-            <Button type="submit" className="w-full h-14 rounded-2xl mt-6 text-base font-bold">
+            <Button  
+                loading={loading}
+                type="submit" 
+                className="w-full h-14 rounded-2xl mt-6 text-base font-bold">
                 Place an order
                 <ArrowRight className="w-5 ml-2" />
             </Button>

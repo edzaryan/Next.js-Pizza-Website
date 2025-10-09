@@ -6,9 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createOrder } from "@/app/actions";
 import { useCart } from "@/shared/hooks";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 export default function CheckoutPage() {
     const { totalAmount, items, removeCartItem, updateItemQuantity, loading } = useCart();
+    const [submitting, setSubmitting] = useState(false);
 
     const form = useForm<CheckoutFormValues>({
         resolver: zodResolver(checkoutFormSchema),
@@ -23,12 +25,24 @@ export default function CheckoutPage() {
     });
 
     const onSubmit = async (data: CheckoutFormValues) => {
+        setSubmitting(true);
+
         try {
-            await createOrder(data);
+          let url = await createOrder(data);
+    
+          toast.success('Order successfully placed! 📝 Redirecting to payment... ', {
+            icon: '✅',
+          });
+
+          if (url) {
+            location.href = url;
+          }
         } catch (err) {
-            toast.error("Failed to create order", { icon: "❌" });
+          console.log(err);
+          setSubmitting(false);
+          toast.error('Failed to create order', { icon: '❌' });
         }
-    };
+      };
 
     const onClickCountButton = (id: number, quantity: number, type: "plus" | "minus") => {
         const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
@@ -50,13 +64,13 @@ export default function CheckoutPage() {
                                 items={items}
                             />
 
-                            <CheckoutPersonalForm className={loading && "opacity-40 pointer-events-none"} />
+                            <CheckoutPersonalForm className={loading ? "opacity-40 pointer-events-none" : ""} />
 
-                            <CheckoutAddressForm className={loading && "opacity-40 pointer-events-none"} />
+                            <CheckoutAddressForm className={loading ? "opacity-40 pointer-events-none" : ""} />
                         </div>
 
                         <div className="w-[450px]">
-                            <CheckoutSidebar totalAmount={totalAmount} loading={loading} />
+                            <CheckoutSidebar totalAmount={totalAmount} loading={loading || submitting} />
                         </div>
                     </div>
                 </form>

@@ -27,6 +27,7 @@ export { Filters } from "./filters";
 export { TopBar } from "./top-bar";
 export { Header } from "./header";
 export { Title } from "./title";
+export * from "./email-templates";
 export * from "./checkout";
 export * from "./modals";
 export * from "./form";
