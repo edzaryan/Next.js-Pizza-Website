@@ -1,3 +1,4 @@
+"use client";
 import { SearchInput } from "./search-input";
 import { CartButton } from "./cart-button";
 import { Container } from "./container";
@@ -6,7 +7,7 @@ import { User } from "lucide-react";
 import { Button } from "../ui";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface Props { 
     className?: string;
@@ -15,6 +16,11 @@ interface Props {
 }
 
 export const Header = ({ className, hasSearch = true, hasCart = true }: Props) => {
+
+    useEffect(() => {
+        console.log("####");
+    }, []);
+
     return (
         <header className={cn("border-b", className)}>
             <Container className="flex items-center justify-between py-8">

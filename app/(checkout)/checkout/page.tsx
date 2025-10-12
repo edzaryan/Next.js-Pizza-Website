@@ -7,10 +7,12 @@ import { createOrder } from "@/app/actions";
 import { useCart } from "@/shared/hooks";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
     const { totalAmount, items, removeCartItem, updateItemQuantity, loading } = useCart();
     const [submitting, setSubmitting] = useState(false);
+    const router = useRouter();
 
     const form = useForm<CheckoutFormValues>({
         resolver: zodResolver(checkoutFormSchema),
@@ -30,13 +32,12 @@ export default function CheckoutPage() {
         try {
           let url = await createOrder(data);
     
-          toast.success('Order successfully placed! 📝 Redirecting to payment... ', {
+          toast.success('Order successfully placed! 📝 Redirecting to home page... ', {
             icon: '✅',
+            duration: 2000
           });
 
-          if (url) {
-            location.href = url;
-          }
+          router.push('/');
         } catch (err) {
           console.log(err);
           setSubmitting(false);

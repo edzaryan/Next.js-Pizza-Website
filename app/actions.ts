@@ -1,10 +1,11 @@
 "use server";
 import { CheckoutFormValues } from "@/shared/components";
+import { PayOrderTemplate } from "@/shared/components";
 import { prisma } from "@/prisma/prisma-client";
 import { OrderStatus } from "@prisma/client";
+import { createPayment } from "@/shared/lib";
 import { sendEmail } from "@/shared/lib";
 import { cookies } from "next/headers";
-import { PayOrderTemplate } from "@/shared/components";
 
 export async function createOrder(data: CheckoutFormValues) {
     try {
@@ -70,14 +71,20 @@ export async function createOrder(data: CheckoutFormValues) {
             }
         });
 
+        // Fake payment
+        const paymentUrl = await createPayment();
+
         await sendEmail(
             data.email, 
             "Next Pizza / Pay for the order #" + order.id, 
             PayOrderTemplate({
                 orderId: order.id,
                 totalAmount: order.totalAmount,
-                paymentUrl: "https://resend.com/api-keys"
-            }));
+                paymentUrl
+            })
+        );
+
+        return paymentUrl;
     } catch (err) {
         console.log('[CreateOrder] Server error', err);
     }

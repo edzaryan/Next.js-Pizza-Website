@@ -1,5 +1,5 @@
+import { Providers } from "@/shared/components/ui/providers";
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
   children,
@@ -8,9 +8,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
+      <head>
+        <link data-rh="true" rel="icon" href="/logo.png" />
+      </head>
       <body className="font-nunito" suppressHydrationWarning={true}>
-        {children}
-        <Toaster />
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
