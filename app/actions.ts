@@ -5,7 +5,10 @@ import { prisma } from "@/prisma/prisma-client";
 import { OrderStatus } from "@prisma/client";
 import { createPayment } from "@/shared/lib";
 import { sendEmail } from "@/shared/lib";
+import { getUserSession } from "@/shared/lib/get-user-session";
 import { cookies } from "next/headers";
+import { hashSync } from "bcrypt";
+import { Prisma } from "@prisma/client";
 
 export async function createOrder(data: CheckoutFormValues) {
     try {
@@ -87,5 +90,50 @@ export async function createOrder(data: CheckoutFormValues) {
         return paymentUrl;
     } catch (err) {
         console.log('[CreateOrder] Server error', err);
+    }
+}
+
+export async function updateUserInfo(body: Prisma.UserUpdateInput) {
+    try {
+        const currentUser = await getUserSession();
+
+        if (!currentUser) {
+            throw new Error("User not authenticated");
+        }
+
+        const findUser = await prisma.user.findFirst({
+            where: { id: Number(currentUser.id) }
+        });
+
+        await prisma.user.update({
+            where: { id: Number(currentUser.id) },
+            data: {
+                email: body.email,
+                fullName: body.fullName,
+                password: body.password ? hashSync(body.password as string, 10) : findUser?.password
+            }
+        });
+    } catch (err) {
+        console.log('[UpdateUserInfo] Server error', err);
+        throw err;
+    }
+}
+
+export async function getUserProfile() {
+    try {
+        const session = await getUserSession();
+
+        if (!session) {
+            return null;
+        }
+
+        const user = await prisma.user.findFirst({
+            where: { id: Number(session?.id) }
+        });
+
+        return user;
+    } catch (err) {
+        console.log('[GetUserProfile] Server error', err);
+        return null;
     }
 }

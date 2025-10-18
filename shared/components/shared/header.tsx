@@ -1,13 +1,13 @@
 "use client";
+import { useSearchParams } from "next/navigation";
 import { SearchInput } from "./search-input";
+import { AuthModal, ProfileButton } from ".";
 import { CartButton } from "./cart-button";
+import { useEffect, useState } from "react";
 import { Container } from "./container";
 import { cn } from "@/shared/lib/utils";
-import { User } from "lucide-react";
-import { Button } from "../ui";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect } from "react";
 
 interface Props { 
     className?: string;
@@ -16,6 +16,8 @@ interface Props {
 }
 
 export const Header = ({ className, hasSearch = true, hasCart = true }: Props) => {
+    const [openAuthModal, setOpenAuthModal] = useState(false);
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         console.log("####");
@@ -41,10 +43,8 @@ export const Header = ({ className, hasSearch = true, hasCart = true }: Props) =
                 )}
                 
                 <div className="flex items-center gap-3">
-                    <Button variant="orangeOutline" className="flex items-center gap-[6px]">
-                        <User size={17} />
-                        Login
-                    </Button>
+                    <AuthModal open={openAuthModal} onClose={() => setOpenAuthModal(false)} />
+                    <ProfileButton onClickSignIn={() => setOpenAuthModal(true)} />
                     {hasCart && <CartButton className="group relative" />}
                 </div>
             </Container>
