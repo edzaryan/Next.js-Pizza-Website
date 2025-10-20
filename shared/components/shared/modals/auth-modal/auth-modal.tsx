@@ -1,6 +1,7 @@
 "use client";
 import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
 import { LoginForm } from "./forms/login-form";
+import { RegisterForm } from "./forms/register-form";
 import { Button } from "@/shared/components";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
@@ -27,7 +28,7 @@ export const AuthModal = ({ open, onClose }: Props) => {
                 {
                     type === "login" 
                         ? <LoginForm onClose={handleClose} /> 
-                        : <h1>REGISTER</h1>
+                        : <RegisterForm onClose={handleClose} />
                 }
                 <hr />
                 <div className="flex gap-2">

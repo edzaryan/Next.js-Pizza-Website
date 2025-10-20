@@ -42,7 +42,7 @@ export default function CheckoutPage() {
           console.log(err);
           setSubmitting(false);
           toast.error('Failed to create order', { icon: '❌' });
-        }
+        }   
       };
 
     const onClickCountButton = (id: number, quantity: number, type: "plus" | "minus") => {
