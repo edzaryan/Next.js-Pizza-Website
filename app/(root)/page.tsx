@@ -10,8 +10,8 @@ export default async function Home({ searchParams }: { searchParams: Promise<Get
 
   return (
     <>
-      <Container className="mt-10">
-        <Title text="All Pizzas" size="lg" className="font-extrabold" />
+      <Container className="mt-12 mb-2">
+        <Title text="Your Favorites, All in One Place" size="lg" className="font-extrabold" />
       </Container>
 
       <TopBar categories={categories.filter(category => category.products.length > 0)} />
@@ -27,7 +27,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Get
           </div>
 
           <div className="flex-1">
-            <div className="flex flex-col gap-16">
+            <div className="flex flex-col gap-10">
               {
                 categories.map(category => (
                   category.products.length > 0 && (

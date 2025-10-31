@@ -3,8 +3,6 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "./prisma-client";
 import { categories, ingredients, products } from "./constants";
 import bcrypt from "bcrypt";
-import { connect } from "http2";
-
 
 const randomDecimalNumber = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min) * 10 + min * 10) / 10;
@@ -82,7 +80,7 @@ async function up() {
         data: {
             name: "Cheese pizza",
             imageUrl: 
-                "https://media.dodostatic.net/image/r:584x584/0198bf40eb1171aabe90b1b3ce07c0c5.avif",
+                "https://media.dodostatic.net/image/r:584x584/0198bf57bc517218ab93c762f4b0193e.avif",
             categoryId: 1,
             ingredients: {
                 connect: ingredients.slice(5, 10)
@@ -92,7 +90,7 @@ async function up() {
 
     const pizza3 = await prisma.product.create({
         data: {
-            name: "Chorizo ​​fresh",
+            name: "Chorizo fresh",
             imageUrl: 
                 "https://media.dodostatic.net/image/r:584x584/0198bf4f806371f19d529f9e9e7dba36.avif",
             categoryId: 1,
@@ -246,6 +244,136 @@ async function up() {
             },
             {
                 storyId: 1,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE',
+            },
+
+            {
+                storyId: 2,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/dd/yj/sx/oqx9feuljibke3mknab7ilb35t.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 2,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/jv/sb/fh/io7c5zarojdm7eus0trn7czdet.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 2,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/ts/p9/vq/zktyxdxnjqbzufonxd8ffk44cb.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 2,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/ur/uq/le/9ufzwtpdjeekidqq04alfnxvu2.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 2,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE',
+            },
+
+            {
+                storyId: 3,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/dd/yj/sx/oqx9feuljibke3mknab7ilb35t.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 3,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/jv/sb/fh/io7c5zarojdm7eus0trn7czdet.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 3,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/ts/p9/vq/zktyxdxnjqbzufonxd8ffk44cb.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 3,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/ur/uq/le/9ufzwtpdjeekidqq04alfnxvu2.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 3,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE',
+            },
+
+            {
+                storyId: 4,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/dd/yj/sx/oqx9feuljibke3mknab7ilb35t.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 4,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/jv/sb/fh/io7c5zarojdm7eus0trn7czdet.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 4,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/ts/p9/vq/zktyxdxnjqbzufonxd8ffk44cb.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 4,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/ur/uq/le/9ufzwtpdjeekidqq04alfnxvu2.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 4,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE',
+            },
+
+            {
+                storyId: 5,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/dd/yj/sx/oqx9feuljibke3mknab7ilb35t.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 5,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/jv/sb/fh/io7c5zarojdm7eus0trn7czdet.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 5,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/ts/p9/vq/zktyxdxnjqbzufonxd8ffk44cb.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 5,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/ur/uq/le/9ufzwtpdjeekidqq04alfnxvu2.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 5,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE',
+            },
+
+            {
+                storyId: 6,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/dd/yj/sx/oqx9feuljibke3mknab7ilb35t.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 6,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/jv/sb/fh/io7c5zarojdm7eus0trn7czdet.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 6,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/ts/p9/vq/zktyxdxnjqbzufonxd8ffk44cb.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 6,
+                sourceUrl:
+                'https://cdn.inappstory.ru/file/ur/uq/le/9ufzwtpdjeekidqq04alfnxvu2.webp?k=IgAAAAAAAAAE',
+            },
+            {
+                storyId: 6,
                 sourceUrl:
                 'https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE',
             },

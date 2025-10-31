@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Header } from "@/shared/components/shared";
 import { Suspense } from "react";
+import { Header } from "@/shared/components/shared";
 
 export const metadata: Metadata = {
   title: "Next Pizza",
@@ -8,8 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default function HomeLayout({
-  children,
-  modal
+   children, modal
 }: Readonly<{
   children: React.ReactNode;
   modal: React.ReactNode;

@@ -19,23 +19,23 @@ export const ProductCard = ({ id, name, price, imageUrl, className, ingredients 
     return (
         <div className={className}>
             <Link href={`/product/${id}`}>
-                <div className="flex justify-center p-6 bg-secondary rounded-xl h-[260px]">
-                    <Image 
-                        src={imageUrl} 
-                        alt={name} 
-                        width={215} 
-                        height={215}
-                        style={{ width: 'auto', height: 'auto' }}
+                <div className="group grid place-items-center rounded-xl h-[303px] bg-secondary overflow-hidden">
+                    <Image
+                        src={imageUrl}
+                        alt={name}
+                        width={230}
+                        height={230}
+                        priority
+                        className="transform transition-transform duration-200 ease-out group-hover:translate-y-[4px]"
+                        draggable={false}
                     />
                 </div>
 
                 <Title text={name} size="sm" className="mb-1 mt-3 font-bold" />
 
-                <p className="text-sm text-gray-400">
-                    {
-                        ingredients.map(ingredient => ingredient.name).join(', ')
-                    }
-                </p>
+                <div className="text-sm text-gray-700">
+                    {ingredients.map(ingredient => ingredient.name).join(", ")}
+                </div>
 
                 <div className="flex justify-between items-center mt-4">
                     <span className="text-[16px] font-bold">

@@ -8,7 +8,7 @@ interface Props {
 export const SortPopup = ({ className }: Props) => {
     return (
         <div className={cn(
-            'inline-flex items-center gap-1 bg-gray-50 px-5 h-[52px] rounded-2xl cursor-pointer', 
+            'inline-flex items-center gap-1 bg-gray-50 px-5 h-13 rounded-2xl cursor-pointer border border-gray-100', 
             className
             )}>
             <ArrowUpDown size={16} />

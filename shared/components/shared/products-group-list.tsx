@@ -36,9 +36,9 @@ export const ProductsGroupList = ({
 
     return (
         <div className={className} id={title} ref={intersectionRef}>
-           <Title text={title} size="lg" className="font-extrabold mb-5" />
+           <Title text={title} size="lg" className="font-extrabold py-5" />
 
-           <div className={cn("grid grid-cols-3 gap-[50px]", listClassName)}>
+           <div className={cn("grid grid-cols-3 gap-5", listClassName)}>
                 {items.map((product, i) => (
                     <ProductCard 
                         key={product.id}
