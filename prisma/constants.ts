@@ -1,12 +1,12 @@
 
 export const categories = [
-    { name: "Pizza" },
-    { name: "Burger" },
-    { name: "Snacks" },
-    { name: "Cocktails" },
-    { name: "Coffee" },
-    { name: "Drinks" },
-    { name: "Desserts" }
+  { name: "Pizzas" },
+  { name: "Burgers" },
+  { name: "Snacks" },
+  { name: "Cocktails" },
+  { name: "Coffees" },
+  { name: "Drinks" },
+  { name: "Desserts" }
 ];
 
 export const ingredients = [

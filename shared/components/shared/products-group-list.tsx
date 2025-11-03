@@ -1,11 +1,10 @@
 "use client";
-import { useEffect, useRef } from "react";
-import { Title } from "./title";
-import { cn } from "@/shared/lib/utils";
-import { ProductCard } from "./product-card";
-import { useIntersection } from "react-use";
 import { useCategoryStore } from "@/shared/store/category";
 import { ProductWithRelations } from "@/@types/prisma";
+import { useIntersection } from "react-use";
+import { useEffect, useRef } from "react";
+import { cn } from "@/shared/lib/utils";
+import { Title, ProductCard } from ".";
 
 interface Props {
     title: string;

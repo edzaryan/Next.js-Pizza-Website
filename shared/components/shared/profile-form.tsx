@@ -1,16 +1,13 @@
 "use client";
-
 import { formRegisterSchema, TFormRegisterValues } from "./modals/auth-modal/forms/schemas";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FormInput, Title, Container } from ".";
 import { updateUserInfo } from "@/app/actions";
 import { signOut } from "next-auth/react";
-import { Container } from "./container";
 import { User } from "@prisma/client";
 import { Button } from "../ui/button";
 import toast from "react-hot-toast";
-import { FormInput } from "./form";
-import { Title } from "./title";
 
 interface Props {
     data: User;

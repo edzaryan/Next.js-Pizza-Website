@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { cn } from "@/shared/lib/utils";
 import { CircleCheck } from "lucide-react";
+import { cn } from "@/shared/lib/utils";
+import Image from "next/image";
 
 interface Props {
     className?: string;
@@ -15,8 +15,8 @@ export const IngredientItem = ({ className, name, price, imageUrl, onClick, acti
     return (
         <div 
             className={cn(
-                'flex items-center flex-col p-1 rounded-xl text-center relative cursor-pointer shadow-sm bg-white',
-                { 'border border-primary' : active },
+                "flex items-center flex-col p-1 rounded-xl text-center relative cursor-pointer shadow-sm bg-white",
+                { "border border-primary" : active },
                 className)} 
             onClick={onClick}
         >

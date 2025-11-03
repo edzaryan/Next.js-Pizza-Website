@@ -1,8 +1,6 @@
-import { cn } from "@/shared/lib/utils";
-import { Container } from "./container";
-import { Categories } from "./categories";
-import { SortPopup } from "./sort-popup";
+import { Container, Categories, SortPopup } from ".";
 import { Category } from "@prisma/client";
+import { cn } from "@/shared/lib/utils";
 
 interface Props {
     categories: Category[];
@@ -20,5 +18,5 @@ export const TopBar = ({ categories, className }: Props) => {
                 <SortPopup />
             </Container>
         </div>
-    );
-};
+    )
+}

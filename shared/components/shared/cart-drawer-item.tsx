@@ -1,10 +1,9 @@
 "use client";
-
 import { CartItemProps } from "./cart-item-details/cart-item-details.types";
 import * as CartItem from "./cart-item-details";
-import { CountButton } from "./count-button";
 import { Trash2Icon } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
+import { CountButton } from ".";
 
 interface Props extends CartItemProps {
     onClickCountButton?: (type: "plus" | "minus") => void;

@@ -1,10 +1,10 @@
 "use client";
-import dynamic from "next/dynamic";
 import "react-dadata/dist/react-dadata.css";
+import dynamic from "next/dynamic";
 
 const AddressSuggestions = dynamic(
     () => import("react-dadata").then(mod => ({ default: mod.AddressSuggestions })),
-    { 
+    {
         ssr: false,
         loading: () => <div className="h-12 w-full border rounded-[20px] px-3 py-2 bg-gray-50" />
     }

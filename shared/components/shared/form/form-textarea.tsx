@@ -40,5 +40,5 @@ export const FormTextarea = ({ className, name, label, required, ...props }: Pro
 
       {errorText && <p className="text-red-500 text-sm mt-2">{errorText}</p>}
     </div>
-  );
-};
+  )
+}

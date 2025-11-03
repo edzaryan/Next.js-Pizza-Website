@@ -1,12 +1,8 @@
 "use client";
-import { useSearchParams } from "next/navigation";
-import { SearchInput } from "./search-input";
-import { AuthModal, ProfileButton } from ".";
+import { AuthModal, ProfileButton, SearchInput, CartButton, Container } from ".";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { CartButton } from "./cart-button";
-import { Container } from "./container";
 import { cn } from "@/shared/lib/utils";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import Link from "next/link";
@@ -44,8 +40,8 @@ export const Header = ({ className, hasSearch = true, hasCart = true }: Props) =
                     <div className="flex items-center gap-4">
                         <Image src="/logo.png" alt="logo" width={35} height={35} />
                         <div>
-                            <h1 className="text-2xl uppercase font-black">Next Pizza</h1>
-                            <p className="text-sm text-gray-400 leading-5">Next-level flavor</p>
+                            <h1 className="text-2xl uppercase font-black">CraveMood</h1>
+                            <p className="text-sm text-gray-400 leading-5">You All-Day Cravings</p>
                         </div>
                     </div>
                 </Link>
@@ -63,6 +59,6 @@ export const Header = ({ className, hasSearch = true, hasCart = true }: Props) =
                 </div>
             </Container>
         </header>
-    );
+    )
 }
 

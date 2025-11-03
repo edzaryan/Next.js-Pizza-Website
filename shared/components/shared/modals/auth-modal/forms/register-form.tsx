@@ -59,5 +59,5 @@ export const RegisterForm = ({ onClose, onClickLogin }: Props) => {
         </Button>
       </form>
     </FormProvider>
-  );
-};
+  )
+}

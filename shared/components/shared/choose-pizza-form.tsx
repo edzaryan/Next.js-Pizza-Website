@@ -1,14 +1,11 @@
 "use client";
-import { cn } from "@/shared/lib/utils";
-import { PizzaImage } from "./pizza-image";
-import { Title } from "./title";
-import { Button } from "../ui";
-import { GroupVariants } from "./group-variants";
 import { PizzaSize, PizzaType, pizzaTypes } from "@/shared/constants/pizza";
+import { IngredientItem, GroupVariants, Title, PizzaImage } from "..";
 import { Ingredient, ProductItem } from "@prisma/client";
-import { IngredientItem } from "./ingredient-item";
-import { usePizzaOptions } from "../../hooks";
-import { getPizzaDetails } from "../../lib/get-pizza-details";
+import { usePizzaOptions } from "@/shared/hooks";
+import { getPizzaDetails } from "@/shared/lib";
+import { cn } from "@/shared/lib/utils";
+import { Button } from "../ui";
 
 interface Props {
     imageUrl: string;

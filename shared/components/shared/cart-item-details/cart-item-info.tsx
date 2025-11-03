@@ -14,5 +14,5 @@ export const CartItemInfo = ({ name, details, className }: Props) => {
       </div>
       {details && <p className="text-xs text-gray-400 w-[90%]">{details}</p>}
     </div>
-  );
-};
+  )
+}

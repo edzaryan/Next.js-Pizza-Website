@@ -1,10 +1,7 @@
 "use client";
-
-import { Title } from "./title";
-import { Input } from "@/shared/components/ui";
-import { RangeSlider } from "./range-slider";
-import { CheckboxFiltersGroup } from "./checkbox-filters-group";
 import { useFilters, useQueryFilters, useIngredients } from "@/shared/hooks";
+import { RangeSlider, CheckboxFiltersGroup, Title } from "..";
+import { Input } from "@/shared/components/ui";
 
 interface Props {
     className?: string;

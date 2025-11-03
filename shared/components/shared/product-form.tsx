@@ -1,5 +1,5 @@
 "use client";
-import { ChoosePizzaForm, ChooseProductForm } from "@/shared/components/shared";
+import { ChoosePizzaForm, ChooseProductForm } from ".";
 import { ProductWithRelations } from "@/@types/prisma";
 import { useCartStore } from "@/shared/store/cart";
 import toast from "react-hot-toast";

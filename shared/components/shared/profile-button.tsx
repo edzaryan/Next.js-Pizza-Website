@@ -1,6 +1,6 @@
+import { CircleUser, User } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Button } from "../ui/button";
-import { CircleUser, User } from "lucide-react";
 import Link from "next/link";
 
 interface Props {

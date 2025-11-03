@@ -1,8 +1,8 @@
 "use client";
 import { cn } from "@/shared/lib/utils";
 import Image from "next/image";
-import { Title } from "./title";
 import { Button } from "../ui";
+import { Title } from ".";
 
 interface Props {
     imageUrl: string;

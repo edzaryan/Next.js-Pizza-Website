@@ -1,4 +1,4 @@
-import { cn } from '@/shared/lib/utils';
+import { cn } from "@/shared/lib/utils";
 
 interface Props {
   text: string;
@@ -6,5 +6,7 @@ interface Props {
 }
 
 export const ErrorText = ({ text, className }: Props) => {
-  return <p className={cn("text-red-500 text-sm", className)}>{text}</p>;
-};
+  return (
+      <p className={cn("text-red-500 text-sm", className)}>{text}</p>
+  )
+}

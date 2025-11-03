@@ -1,16 +1,15 @@
 "use client";
-import { Sheet, SheetTrigger, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetClose } from '@/shared/components/ui/sheet';
+import { Sheet, SheetTrigger, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetClose } from "../ui/sheet";
 import { PizzaType, PizzaSize } from "@/shared/constants/pizza";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { PropsWithChildren, useState } from "react";
 import { CartDrawerItem } from "./cart-drawer-item";
 import { getCartItemDetails } from "@/shared/lib";
-import { PropsWithChildren } from "react";
 import { useCart } from "@/shared/hooks";
 import { Button } from "../ui/button";
-import { useState } from "react";
-import { Title } from "./title";
 import Image from "next/image";
 import Link from "next/link";
+import { Title } from ".";
 
 export const CartDrawer = ({ children }: PropsWithChildren) => {
     const { totalAmount, items, removeCartItem, updateItemQuantity } = useCart();

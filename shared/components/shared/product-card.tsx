@@ -1,10 +1,10 @@
 "use client";
-import Link from "next/link";
-import Image from "next/image";
-import { Title } from "./title";
-import { Button } from "../ui";
-import { Plus } from "lucide-react";
 import { Ingredient } from "@prisma/client";
+import { Plus } from "lucide-react";
+import Image from "next/image";
+import { Button } from "../ui";
+import Link from "next/link";
+import { Title } from ".";
 
 interface Props {
     id: number;

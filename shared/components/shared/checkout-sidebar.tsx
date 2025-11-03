@@ -1,10 +1,8 @@
-import { CheckoutItemDetails } from "./checkout-item-details";
 import { Package, Percent, Truck } from "lucide-react";
-import { WhiteBlock } from "./white-block";
+import { CheckoutItemDetails, WhiteBlock } from ".";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
-import { Button } from "../ui/button";
-import { Skeleton } from "..";
+import { Button, Skeleton } from "../ui";
 
 const VAT = 15;
 const DELIVERY_PRICE = 250;

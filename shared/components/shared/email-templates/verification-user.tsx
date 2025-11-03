@@ -9,4 +9,4 @@ export const VerificationUserTemplate = ({ code }: { code: string }) => (
       <a href={`http://localhost:3000/api/auth/verify?code=${code}`}>Verify registration</a>
     </p>
   </div>
-);
+)

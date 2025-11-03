@@ -14,4 +14,4 @@ export const PayOrderTemplate = ({ orderId, totalAmount, paymentUrl }: Props) =>
       <a href={paymentUrl}>to this link</a> to complete the payment.
     </p>
   </div>
-);
+)
