@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useFilters, useQueryFilters, useIngredients } from "@/shared/hooks";
 import { RangeSlider, CheckboxFiltersGroup, Title } from "..";
 import { Input } from "@/shared/components/ui";

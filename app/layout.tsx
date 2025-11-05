@@ -1,6 +1,7 @@
 import { Providers } from "@/shared/components/ui/providers";
 import "./globals.css";
 
+
 export default function RootLayout({
   children,
 }: Readonly<{

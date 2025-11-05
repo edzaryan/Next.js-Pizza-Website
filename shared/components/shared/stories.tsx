@@ -1,6 +1,6 @@
-"use client";
+"use client"
 import { Api } from "@/shared/services/api-client";
-import { IStory } from "@/shared/services/stories";
+import { IStory } from "@/shared/services/story";
 import { useState, useEffect } from "react";
 import ReactStories from "react-insta-stories";
 import { cn } from "@/shared/lib/utils";

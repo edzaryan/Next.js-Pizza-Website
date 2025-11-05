@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import { Ingredient } from "@prisma/client";
 import { Api } from "@/shared/services/api-client";
+import { useState, useEffect } from "react";
+import { Ingredient } from "@prisma/client";
+
 
 export const useIngredients = () => {
     const [loading, setLoading] = useState(true);

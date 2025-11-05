@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { WhiteBlock } from "../white-block";
 import { FormTextarea } from "../form";
 import { AddressInput } from "../address-input";

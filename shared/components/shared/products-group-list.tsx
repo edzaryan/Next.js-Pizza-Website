@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useCategoryStore } from "@/shared/store/category";
 import { ProductWithRelations } from "@/@types/prisma";
 import { useIntersection } from "react-use";

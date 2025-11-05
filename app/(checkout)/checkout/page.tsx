@@ -3,13 +3,14 @@ import { CheckoutFormValues, checkoutFormSchema, CheckoutPersonalForm, CheckoutA
 import { CheckoutSidebar, Container, Title } from "@/shared/components/shared";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Api } from "@/shared/services/api-client";
+import { useSession } from "next-auth/react";
 import { createOrder } from "@/app/actions";
 import { useRouter } from "next/navigation";
-import { useCart } from "@/shared/hooks";
-import { useSession } from "next-auth/react";
-import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { Api } from "@/shared/services/api-client";
+import { useCart } from "@/shared/hooks";
+import toast from "react-hot-toast";
+
 
 export default function CheckoutPage() {
     const { totalAmount, items, removeCartItem, updateItemQuantity, loading } = useCart();

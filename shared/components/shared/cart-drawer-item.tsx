@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { CartItemProps } from "./cart-item-details/cart-item-details.types";
 import * as CartItem from "./cart-item-details";
 import { Trash2Icon } from "lucide-react";

@@ -43,5 +43,5 @@ export const findPizzas = async(params: GetSearchParams) => {
                 }
             }
         }
-    });
-};
+    })
+}

@@ -1,7 +1,8 @@
-import { create } from "zustand";
-import { getCartDetails } from "../lib";
-import { Api } from "../services/api-client";
 import { CreateCartItemValues } from "../services/dto/cart.dto";
+import { Api } from "../services/api-client";
+import { getCartDetails } from "../lib";
+import { create } from "zustand";
+
 
 export type ICartItem = {
     id: number;
@@ -13,13 +14,13 @@ export type ICartItem = {
     pizzaType?: number | null;
     disabled?: boolean;
     ingredients: Array<{ name: string; price: number }>;
-};
+}
 
 export interface CartState {
-    loading: boolean;
-    error: boolean;
-    totalAmount: number;
     items: ICartItem[];
+    error: boolean;
+    loading: boolean;
+    totalAmount: number;
 
     fetchCartItems: () => Promise<void>;
 
@@ -30,7 +31,7 @@ export interface CartState {
     removeCartItem: (id: number) => Promise<void>;
 }
 
-export const useCartStore = create<CartState>((set, get) => ({
+export const useCartStore = create<CartState>(set => ({
     items: [],
     error: false,
     loading: true,

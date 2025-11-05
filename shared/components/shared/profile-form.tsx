@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { formRegisterSchema, TFormRegisterValues } from "./modals/auth-modal/forms/schemas";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

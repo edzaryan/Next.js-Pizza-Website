@@ -1,5 +1,4 @@
-'use client';
-
+'use client'
 import { TFormRegisterValues, formRegisterSchema } from "./schemas";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

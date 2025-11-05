@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { AuthModal, ProfileButton, SearchInput, CartButton, Container } from ".";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

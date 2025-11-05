@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { cn } from "@/shared/lib/utils";
 
 export type Variant = {

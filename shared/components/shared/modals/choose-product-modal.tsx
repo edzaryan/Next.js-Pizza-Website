@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/shared/components/ui/dialog";
 import { ProductWithRelations } from "@/@types/prisma";
 import { ProductForm } from "../product-form";

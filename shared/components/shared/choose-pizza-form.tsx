@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { PizzaSize, PizzaType, pizzaTypes } from "@/shared/constants/pizza";
 import { IngredientItem, GroupVariants, Title, PizzaImage } from "..";
 import { Ingredient, ProductItem } from "@prisma/client";

@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import "react-dadata/dist/react-dadata.css";
 import dynamic from "next/dynamic";
 

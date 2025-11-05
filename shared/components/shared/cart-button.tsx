@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { ShoppingCart, ArrowRight, Loader } from "lucide-react";
 import { useCartStore } from "@/shared/store";
 import { cn } from "@/shared/lib/utils";

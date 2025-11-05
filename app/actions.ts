@@ -10,6 +10,7 @@ import { Prisma } from "@prisma/client";
 import { cookies } from "next/headers";
 import { hashSync } from "bcrypt";
 
+
 export async function createOrder(data: CheckoutFormValues) {
     try {
         const cartToken = (await cookies()).get("cartToken")?.value;

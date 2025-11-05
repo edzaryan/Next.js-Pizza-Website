@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { Ingredient } from "@prisma/client";
 import { Plus } from "lucide-react";
 import Image from "next/image";

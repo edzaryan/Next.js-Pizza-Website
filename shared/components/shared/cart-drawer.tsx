@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { Sheet, SheetTrigger, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetClose } from "../ui/sheet";
 import { PizzaType, PizzaSize } from "@/shared/constants/pizza";
 import { ArrowLeft, ArrowRight } from "lucide-react";

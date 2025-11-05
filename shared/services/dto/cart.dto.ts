@@ -1,5 +1,6 @@
 import { Cart, CartItem, Ingredient, ProductItem, Product } from "@prisma/client";
 
+
 export type CartItemDto = CartItem & {
     productItem: ProductItem & {
         product: Product;

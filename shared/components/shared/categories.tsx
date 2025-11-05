@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useCategoryStore } from "@/shared/store/category";
 import { Category } from "@prisma/client";
 import { cn } from "@/shared/lib/utils";

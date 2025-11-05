@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useClickAway, useDebounce } from "react-use";
 import { Api } from "@/shared/services/api-client";
 import { Product } from "@prisma/client";
