@@ -62,7 +62,7 @@ async function up() {
         data: {
             name: "Pepperoni pizza",
             imageUrl: 
-                "https://media.dodostatic.net/image/r:292x292/0198bf57bc517218ab93c762f4b0193e.jpg",
+                "https://media.dodostatic.net/image/r:584x584/0198bf57bc517218ab93c762f4b0193e.avif",
             categoryId: 1,
             ingredients: {
                 connect: ingredients.slice(0, 5)
@@ -74,7 +74,7 @@ async function up() {
         data: {
             name: "Cheese pizza",
             imageUrl: 
-                "https://media.dodostatic.net/image/r:584x584/0198bf57bc517218ab93c762f4b0193e.avif",
+                "https://media.dodostatic.net/image/r:233x233/0198bf40eb1171aabe90b1b3ce07c0c5.avif",
             categoryId: 1,
             ingredients: {
                 connect: ingredients.slice(5, 10)

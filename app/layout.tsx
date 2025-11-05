@@ -1,4 +1,4 @@
-import { Providers } from "@/shared/components/ui/providers";
+import { Providers } from "@/app/providers";
 import "./globals.css";
 
 

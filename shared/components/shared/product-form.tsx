@@ -1,59 +1,61 @@
-"use client"
+"use client";
 import { ChoosePizzaForm, ChooseProductForm } from ".";
 import { ProductWithRelations } from "@/@types/prisma";
-import { useCartStore } from "@/shared/store/cart";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/shared/store/store";
+import { addCartItem } from "@/shared/store/cartSlice";
 
 interface Props {
-    product: ProductWithRelations;
-    onSubmit?: VoidFunction;
+  product: ProductWithRelations;
+  onSubmit?: VoidFunction;
 }
 
 export const ProductForm = ({ product, onSubmit }: Props) => {
-    const addCartItem = useCartStore((state) => state.addCartItem);
-    const loading = useCartStore((state) => state.loading);
-    const firstItem = product?.items[0];
-    const isPizzaForm = Boolean(firstItem?.pizzaType);
+  const dispatch = useDispatch<AppDispatch>();
+  const loading = useSelector((state: RootState) => state.cart.loading);
+  const firstItem = product?.items[0];
+  const isPizzaForm = Boolean(firstItem?.pizzaType);
 
-    const onHandleSubmit = async (productItemId?: number, ingredients?: number[]) => {
-        const itemId = productItemId || firstItem?.id;
-        
-        if (!itemId) {
-            toast.error("Product not available");
-            return;
-        }
+  const onHandleSubmit = async (productItemId?: number, ingredients?: number[]) => {
+    const itemId = productItemId || firstItem?.id;
 
-        try {
-            await addCartItem({
-                productItemId: itemId,
-                ingredients
-            });
-            
-            const successMessage = `${product.name} added to cart`;
-            toast.success(successMessage);
-            onSubmit?.();
-        } catch (error) {
-            const errorMessage = `Failed to add ${product.name} to cart`;
-            toast.error(errorMessage);
-        }
+    if (!itemId) {
+      toast.error("Product not available");
+      return;
     }
 
-    if (isPizzaForm) {
-        return (
-            <ChoosePizzaForm 
-                {...product} 
-                onSubmit={onHandleSubmit} 
-                loading={loading} 
-            />
-        )
-    }
+    try {
+      await dispatch(
+        addCartItem({
+          productItemId: itemId,
+          ingredients,
+        })
+      ).unwrap(); // unwraps the thunk promise so we can catch errors
 
+      toast.success(`${product.name} added to cart`);
+      onSubmit?.();
+    } catch (error) {
+      toast.error(`Failed to add ${product.name} to cart`);
+    }
+  };
+
+  if (isPizzaForm) {
     return (
-        <ChooseProductForm 
-            {...product}
-            onSubmit={() => onHandleSubmit()}
-            price={firstItem?.price || 0}
-            loading={loading}
-        />
-    )
-}
+      <ChoosePizzaForm
+        {...product}
+        onSubmit={onHandleSubmit}
+        loading={loading}
+      />
+    );
+  }
+
+  return (
+    <ChooseProductForm
+      {...product}
+      onSubmit={() => onHandleSubmit()}
+      price={firstItem?.price || 0}
+      loading={loading}
+    />
+  );
+};

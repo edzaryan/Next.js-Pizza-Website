@@ -1,23 +1,24 @@
-import { CreateCartItemValues } from "@/shared/services/dto/cart.dto";
-import { CartStateItem } from "@/shared/lib/get-cart-details";
-import { useCartStore } from "@/shared/store/cart";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/shared/store/store";
 import { useEffect } from "react";
+import { fetchCartItems, addCartItem, removeCartItem, updateItemQuantity } from "@/shared/store/cartSlice";
 
-type ReturnProps = {
-    updateItemQuantity: (id: number, quantity: number) => void;
-    addCartItem: (values: CreateCartItemValues) => void;
-    removeCartItem: (id: number) => void;
-    items: CartStateItem[];
-    totalAmount: number;
-    loading: boolean;
-}
+export const useCart = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { items, totalAmount, loading, error } = useSelector((state: RootState) => state.cart);
 
-export const useCart = (): ReturnProps => {
-    const cartState = useCartStore(state => state);
+  useEffect(() => {
+    dispatch(fetchCartItems());
+  }, [dispatch]);
 
-    useEffect(() => {
-        cartState.fetchCartItems();
-    }, []);
-
-    return cartState;
-}
+  return {
+    items,
+    totalAmount,
+    loading,
+    error,
+    fetchCartItems: () => dispatch(fetchCartItems()),
+    addCartItem: (values: any) => dispatch(addCartItem(values)),
+    removeCartItem: (id: number) => dispatch(removeCartItem(id)),
+    updateItemQuantity: (id: number, quantity: number) => dispatch(updateItemQuantity({ id, quantity })),
+  };
+};
