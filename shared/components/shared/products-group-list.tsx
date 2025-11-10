@@ -1,12 +1,13 @@
-"use client"
+"use client";
+
 import { useDispatch } from "react-redux";
 import { setActiveId } from "@/shared/store/categorySlice";
 import { ProductWithRelations } from "@/@types/prisma";
-import { useIntersection } from "react-use";
 import { useEffect, useRef } from "react";
 import { cn } from "@/shared/lib/utils";
 import { Title, ProductCard } from ".";
 import { AppDispatch } from "@/shared/store/store";
+import { useIntersection } from "@/shared/hooks/useIntersection";
 
 interface Props {
   title: string;
@@ -25,9 +26,8 @@ export const ProductsGroupList = ({
 }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const intersectionRef = useRef<HTMLDivElement>(null);
-  const intersection = useIntersection(intersectionRef as any, {
-    threshold: 0.4,
-  });
+
+  const intersection = useIntersection(intersectionRef, { threshold: 0.4 });
 
   useEffect(() => {
     if (intersection?.isIntersecting) {

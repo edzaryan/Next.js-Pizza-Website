@@ -27,9 +27,9 @@ export const FormTextarea = ({ className, name, label, required, ...props }: Pro
 
   return (
     <div className={className}>
-      <p className="font-medium mb-2">
+      <div className="font-medium mb-2">
         {label} {required && <span className="text-red-500">*</span>}
-      </p>
+      </div>
 
       <div className="relative">
         <Textarea className="min-h-16 text-md" {...register(name)} {...props} />

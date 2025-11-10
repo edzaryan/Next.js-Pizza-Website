@@ -20,6 +20,8 @@ model User {
     provider    String?
     providerId  String?
 
+    imageUrl    String?
+
     cart        Cart?
     orders      Order[]
     verificationCode VerificationCode?

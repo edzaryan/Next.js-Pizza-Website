@@ -17,7 +17,7 @@ export const Header = ({ className, hasSearch = true, hasCart = true }: Props) =
     const [openAuthModal, setOpenAuthModal] = useState(false);
     const searchParams = useSearchParams();
     const router = useRouter();
-
+    
     useEffect(() => {
         let toastMessage = "";
 

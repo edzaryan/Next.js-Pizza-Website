@@ -8,12 +8,14 @@ import { signOut } from "next-auth/react";
 import { User } from "@prisma/client";
 import { Button } from "../ui/button";
 import toast from "react-hot-toast";
+import { ProfileImageUploader } from "./form"
 
 interface Props {
-    data: User;
+  data: User;
 }
 
 export function ProfileForm({ data }: Props) {
+
     const form = useForm({
         resolver: zodResolver(formRegisterSchema),
         defaultValues: {
@@ -44,33 +46,42 @@ export function ProfileForm({ data }: Props) {
 
     return (
       <Container className="my-10">
-        <Title text={`Personal Information | #${data.id}`} size="md" className="font-bold" />
+        <Title text="Personal Information" size="md" className="text-[32px] font-extrabold" />
+        
+        <div className="flex flex-cols justify-center gap-50 mt-14">
+          <div className="mt-3">
+            <ProfileImageUploader />
+          </div>
+          <div>
+            <FormProvider {...form}>
+              <form className="flex flex-col gap-5 w-96" onSubmit={form.handleSubmit(onSubmit)}>
+                <FormInput name="email" label="E-Mail" required />
+                <FormInput name="fullName" label="Full Name" required />
 
-        <FormProvider {...form}>
-          <form className="flex flex-col gap-5 w-96 mt-10" onSubmit={form.handleSubmit(onSubmit)}>
-            <FormInput name="email" label="E-Mail" required />
-            <FormInput name="fullName" label="Full Name" required />
+                <FormInput type="password" name="password" label="New Password" required />
+                <FormInput type="password" name="confirmPassword" label="Confirm Password" required />
 
-            <FormInput type="password" name="password" label="New Password" required />
-            <FormInput type="password" name="confirmPassword" label="Confirm Password" required />
+                <div className="flex flex-col gap-3 mt-5">
+                  <Button 
+                    disabled={form.formState.isSubmitting} 
+                    className="text-base select-none" 
+                    type="submit">
+                    Save
+                  </Button>
 
-            <Button 
-              disabled={form.formState.isSubmitting} 
-              className="text-base mt-10" 
-              type="submit">
-              Save
-            </Button>
-
-            <Button
-              onClick={onClickSignOut}
-              variant="secondary"
-              disabled={form.formState.isSubmitting}
-              className="text-base"
-              type="button">
-              Sign Out
-            </Button>
-          </form>
-        </FormProvider>
+                  <Button
+                    onClick={onClickSignOut}
+                    variant="secondary"
+                    disabled={form.formState.isSubmitting}
+                    className="text-base select-none"
+                    type="button">
+                    Sign Out
+                  </Button>
+                </div>
+              </form>
+            </FormProvider>
+          </div>
+        </div>
     </Container>
   );
 }

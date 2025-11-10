@@ -62,12 +62,12 @@ export default function CheckoutPage() {
           setSubmitting(false);
           toast.error('Failed to create order', { icon: '❌' });
         }   
-      };
+      }
 
     const onClickCountButton = (id: number, quantity: number, type: "plus" | "minus") => {
         const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
         updateItemQuantity(id, newQuantity);
-    };
+    }
 
     return (
         <Container className="mt-10">

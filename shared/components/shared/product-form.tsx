@@ -1,10 +1,10 @@
 "use client";
 import { ChoosePizzaForm, ChooseProductForm } from ".";
 import { ProductWithRelations } from "@/@types/prisma";
-import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/shared/store/store";
 import { addCartItem } from "@/shared/store/cartSlice";
+import toast from "react-hot-toast";
 
 interface Props {
   product: ProductWithRelations;

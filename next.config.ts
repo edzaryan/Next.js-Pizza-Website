@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "cdn.inappstory.ru",
       },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      }
     ],
   },
   turbopack: {

@@ -1,19 +1,18 @@
-"use client";
+"use client"
 import { ShoppingCart, ArrowRight, Loader } from "lucide-react";
+import { RootState } from "@/shared/store/store";
+import { useSelector } from "react-redux";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "../ui/button";
 import { CartDrawer } from ".";
-import { useSelector } from "react-redux";
-import { RootState } from "@/shared/store/store";
+
 
 interface Props {
   className?: string;
 }
 
 export const CartButton = ({ className }: Props) => {
-  const { totalAmount, loading, items } = useSelector(
-    (state: RootState) => state.cart
-  );
+  const { totalAmount, loading, items } = useSelector((state: RootState) => state.cart);
 
   return (
     <CartDrawer>
@@ -36,5 +35,5 @@ export const CartButton = ({ className }: Props) => {
         )}
       </Button>
     </CartDrawer>
-  );
-};
+  )
+}
