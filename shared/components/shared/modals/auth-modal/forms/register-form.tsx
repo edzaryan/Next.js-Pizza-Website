@@ -28,13 +28,13 @@ export const RegisterForm = ({ onClose }: Props) => {
   const onSubmit = async (data: TFormRegisterValues) => {
     try {
       await registerUser({
-          email: data.email,
-          fullName: data.fullName,
-          password: data.password,
-          verified: ""
+        email: data.email,
+        fullName: data.fullName,
+        password: data.password,
+        verified: ""
       });
 
-      toast.error("Registration successful 📝. Verify your email", { icon: "✅" });
+      toast.error("Registration successfull. Verify your email", { icon: "✅" });
       onClose?.();
     } catch (error) {
       return toast.error("Invalid E-Mail or password", { icon: "❌" });
@@ -46,7 +46,7 @@ export const RegisterForm = ({ onClose }: Props) => {
       <form className="flex flex-col gap-5 select-none" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="flex justify-between items-center">
             <div className="mr-2">
-                <Title text="Create an account" size="md" className="font-bold uppercase" />
+              <Title text="Create an account" size="md" className="font-bold uppercase" />
             </div>
             <Image 
               src="/assets/images/phone-icon.png" 

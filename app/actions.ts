@@ -1,6 +1,6 @@
 "use server";
-import { getUserSession } from "@/shared/lib/get-user-session";
 import { CheckoutFormValues, VerificationUserTemplate } from "@/shared/components";
+import { getUserSession } from "@/shared/lib/get-user-session";
 import { PayOrderTemplate } from "@/shared/components";
 import { prisma } from "@/prisma/prisma-client";
 import { OrderStatus } from "@prisma/client";
@@ -148,11 +148,7 @@ export async function registerUser(body: Prisma.UserCreateInput) {
     });
 
     if (user) {
-      if (!user.verified) {
-        throw new Error('Email not verified');
-      }
-
-      throw new Error('User already exists');
+        throw new Error(user.verified ? "User already exists" : "Email not verified");
     }
 
     const createdUser = await prisma.user.create({
@@ -160,7 +156,7 @@ export async function registerUser(body: Prisma.UserCreateInput) {
         fullName: body.fullName,
         email: body.email,
         password: hashSync(body.password, 10)
-      },
+      }
     });
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
@@ -174,10 +170,8 @@ export async function registerUser(body: Prisma.UserCreateInput) {
 
     await sendEmail(
       createdUser.email,
-      'Next Pizza / 📝 Registration Confirmation',
-      VerificationUserTemplate({
-        code,
-      }),
+      "Verify Your Next Pizza Account",
+      VerificationUserTemplate({ code })
     );
   } catch (err) {
     console.log('Error [CREATE_USER]', err);
