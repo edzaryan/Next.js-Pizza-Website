@@ -1,6 +1,6 @@
 "use client";
 import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
-import { ResetPassword } from "./forms/reset-password-form";
+import { ResetPasswordForm } from "./forms/reset-password-form";
 import { RegisterForm } from "./forms/register-form";
 import { LoginForm } from "./forms/login-form";
 import { Button } from "@/shared/components";
@@ -45,8 +45,8 @@ export const AuthModal = ({ open, onClose }: Props) => {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="w-[450px] bg-white p-10">
         {type === "login" && <LoginForm onClose={onClose} />}
-        {type === "register" && <RegisterForm onClose={onClose} />}
-        {type === "password-reset" && <ResetPassword onClose={onClose} />}
+        {type === "register" && <RegisterForm onClose={() => setType("login")} />}
+        {type === "password-reset" && <ResetPasswordForm onClose={() => setType("login")} />}
 
         <hr />
 

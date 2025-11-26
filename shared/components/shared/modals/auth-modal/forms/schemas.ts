@@ -34,7 +34,16 @@ export const formResetPasswordSchema = z.object({
     email: emailSchema
 });
 
+export const formNewPasswordSchema = z.object({
+    password: passwordSchema,
+    confirmPassword: z.string()
+}).refine(data => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"]
+});
 
-export type TFormLoginValues = z.infer<typeof formLoginSchema>;
-export type TFormRegisterValues = z.infer<typeof formRegisterSchema>;
+
 export type TFormResetPasswordValues = z.infer<typeof formResetPasswordSchema>;
+export type TFormNewPasswordValues = z.infer<typeof formNewPasswordSchema>;
+export type TFormRegisterValues = z.infer<typeof formRegisterSchema>;
+export type TFormLoginValues = z.infer<typeof formLoginSchema>;

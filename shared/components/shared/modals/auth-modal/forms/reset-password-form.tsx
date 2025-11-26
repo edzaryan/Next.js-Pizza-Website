@@ -13,7 +13,7 @@ interface Props {
   onClose?: VoidFunction;
 }
 
-export function ResetPassword({ onClose }: Props) {
+export function ResetPasswordForm({ onClose }: Props) {
     const form = useForm<TFormResetPasswordValues>({
         resolver: zodResolver(formResetPasswordSchema),
         defaultValues: { email: "" },

@@ -1,7 +1,7 @@
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
-export const ResetPasswordEmailTemplate = ({ code }: { code: string }) => (
+export const ResetPasswordEmailTemplate = ({ token }: { token: string }) => (
   <div
     style={{
       fontFamily: "Arial, sans-serif",
@@ -21,7 +21,7 @@ export const ResetPasswordEmailTemplate = ({ code }: { code: string }) => (
 
     <p style={{ textAlign: "center", margin: "24px 0" }}>
       <a
-        href={`${BASE_URL}/reset-password?code=${code}`}
+        href={`${BASE_URL}/password-reset/${token}`}
         style={{
           display: "inline-block",
           backgroundColor: "#ff4d4f",
@@ -45,10 +45,10 @@ export const ResetPasswordEmailTemplate = ({ code }: { code: string }) => (
       Or open the link directly:
       <br />
       <a
-        href={`${BASE_URL}/reset-password?code=${code}`}
+        href={`${BASE_URL}/password-reset/${token}`}
         style={{ color: "#ff4d4f", wordBreak: "break-all" }}
       >
-        {`${BASE_URL}/reset-password?code=${code}`}
+        {`${BASE_URL}/password-reset/${token}`}
       </a>
     </p>
 

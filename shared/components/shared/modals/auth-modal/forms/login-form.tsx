@@ -59,7 +59,7 @@ export const LoginForm = ({ onClose }: Props) => {
                     <FormInput name="password" label="Password" type="password" required />
 
                     <Button 
-                        loading={form.formState.isSubmitted} 
+                        loading={form.formState.isSubmitting} 
                         className="h-12 text-base" 
                         type="submit"
                     >
