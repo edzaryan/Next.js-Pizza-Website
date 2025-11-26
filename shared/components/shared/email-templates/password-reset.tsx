@@ -1,7 +1,7 @@
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
-export const VerificationUserTemplate = ({ code }: { code: string }) => (
+export const ResetPasswordEmailTemplate = ({ code }: { code: string }) => (
   <div
     style={{
       fontFamily: "Arial, sans-serif",
@@ -11,19 +11,17 @@ export const VerificationUserTemplate = ({ code }: { code: string }) => (
       margin: "0 auto",
     }}
   >
-    <h2 style={{ textAlign: "center" }}>Verify Your Email 🍕</h2>
+    <h2 style={{ textAlign: "center" }}>Reset Your Password 🔐</h2>
 
     <p>
-      Thanks for creating a <strong>Next Pizza</strong> account!
+      Hi! A request was made to reset your <strong>Next Pizza</strong> account password.
     </p>
 
-    <p>
-      To finish setting things up, please confirm your email address using the button below.
-    </p>
+    <p>If this was you, use the button below to set a new password.</p>
 
     <p style={{ textAlign: "center", margin: "24px 0" }}>
       <a
-        href={`${BASE_URL}/api/auth/verify?code=${code}`}
+        href={`${BASE_URL}/reset-password?code=${code}`}
         style={{
           display: "inline-block",
           backgroundColor: "#ff4d4f",
@@ -35,31 +33,27 @@ export const VerificationUserTemplate = ({ code }: { code: string }) => (
           fontSize: "16px",
         }}
       >
-        Verify Email
+        Reset Password
       </a>
     </p>
 
-    <p style={{ fontSize: "14px", color: "#555" }}>
-      If the button doesn't work, use this link:
+    <p>This link expires in <strong>10 minutes</strong>.</p>
+
+    <p>If you didn’t request this, simply ignore the message.</p>
+
+    <p style={{ marginTop: "28px", fontSize: "14px", color: "#555" }}>
+      Or open the link directly:
       <br />
       <a
-        href={`${BASE_URL}/api/auth/verify?code=${code}`}
+        href={`${BASE_URL}/reset-password?code=${code}`}
         style={{ color: "#ff4d4f", wordBreak: "break-all" }}
       >
-        {`${BASE_URL}/api/auth/verify?code=${code}`}
+        {`${BASE_URL}/reset-password?code=${code}`}
       </a>
-    </p>
-
-    <p>
-      This link will expire in <strong>10 minutes</strong>.
-    </p>
-
-    <p>
-      If you didn't create an account, you can safely ignore this message.
     </p>
 
     <p style={{ marginTop: "30px", color: "#777" }}>
       — <strong>The Next Pizza Team</strong> 🍕
     </p>
   </div>
-);
+)

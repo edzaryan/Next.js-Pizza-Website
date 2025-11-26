@@ -4,10 +4,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/shared/components/ui";
 import { registerUser } from "@/app/actions";
-import { FormInput } from "../../../form";
+import { FormInput } from "../../..";
 import toast from "react-hot-toast";
 import { Title } from "../../..";
-import Image from "next/image";
 
 
 interface Props {
@@ -34,10 +33,10 @@ export const RegisterForm = ({ onClose }: Props) => {
         verified: ""
       });
 
-      toast.error("Registration successfull. Verify your email", { icon: "✅" });
+      toast.success("Registration successfull. Verify your email", { icon: "✅" });
       onClose?.();
-    } catch (error) {
-      return toast.error("Invalid E-Mail or password", { icon: "❌" });
+    } catch (error: any) {
+      return toast.error(error.message ?? "Something went wrong. Please try again", { icon: "❌" });
     }
   }
 
@@ -48,11 +47,10 @@ export const RegisterForm = ({ onClose }: Props) => {
             <div className="mr-2">
               <Title text="Create an account" size="md" className="font-bold uppercase" />
             </div>
-            <Image 
+            <img 
               src="/assets/images/phone-icon.png" 
               alt="phone-icon" 
-              width={60} 
-              height={60} 
+              className="w-15 h-15" 
             />
         </div>
 

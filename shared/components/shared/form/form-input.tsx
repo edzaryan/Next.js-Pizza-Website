@@ -39,7 +39,7 @@ export const FormInput = ({
         {label && <span>{label} {required && <RequiredSymbol />}</span>}
 
         <div className="relative mt-2">
-          <Input className="h-12 text-md" {...register(name)} {...props} />
+          <Input className="h-12 text-md" {...props} {...register(name)} />
           {value && <ClearButton onClick={onClickClear} />}
         </div>
       </label>

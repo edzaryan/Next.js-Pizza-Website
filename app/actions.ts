@@ -1,5 +1,5 @@
 "use server";
-import { CheckoutFormValues, VerificationUserTemplate } from "@/shared/components";
+import { CheckoutFormValues, VerificationUserTemplate, ResetPasswordEmailTemplate } from "@/shared/components";
 import { getUserSession } from "@/shared/lib/get-user-session";
 import { PayOrderTemplate } from "@/shared/components";
 import { prisma } from "@/prisma/prisma-client";
@@ -9,6 +9,7 @@ import { sendEmail } from "@/shared/lib";
 import { Prisma } from "@prisma/client";
 import { cookies } from "next/headers";
 import { hashSync } from "bcrypt";
+import { nanoid } from "nanoid";
 
 
 export async function createOrder(data: CheckoutFormValues) {
@@ -142,21 +143,44 @@ export async function getUserProfile() {
 export async function registerUser(body: Prisma.UserCreateInput) {
   try {
     const user = await prisma.user.findFirst({
-      where: {
-        email: body.email,
-      },
+      where: { email: body.email },
     });
 
-    if (user) {
-        throw new Error(user.verified ? "User already exists" : "Email not verified");
+    if (user && !user.verified) {
+        console.log("####");
+
+      await prisma.verificationCode.deleteMany({
+        where: { userId: user.id },
+      });
+
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+      await prisma.verificationCode.create({
+        data: {
+          code,
+          userId: user.id
+        }
+      });
+
+      await sendEmail(
+        user.email,
+        "Verify Your Next Pizza Account",
+        VerificationUserTemplate({ code })
+      );
+
+      return;
+    }
+
+    if (user && user.verified) {
+      throw new Error("This email is already registered. Please log in.");
     }
 
     const createdUser = await prisma.user.create({
       data: {
         fullName: body.fullName,
         email: body.email,
-        password: hashSync(body.password, 10)
-      }
+        password: hashSync(body.password, 10),
+      },
     });
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
@@ -173,8 +197,37 @@ export async function registerUser(body: Prisma.UserCreateInput) {
       "Verify Your Next Pizza Account",
       VerificationUserTemplate({ code })
     );
+
   } catch (err) {
-    console.log('Error [CREATE_USER]', err);
+    console.log("Error [CREATE_USER]", err);
     throw err;
   }
 }
+
+export async function requestPasswordReset(email: string) {
+  const user = await prisma.user.findFirst({ where: { email } });
+
+  if (!user) {
+    throw new Error("No account found with this email.");
+  }
+
+  const token = nanoid(40);
+
+  await prisma.passwordResetToken.deleteMany({
+    where: { userId: user.id }
+  });
+
+  await prisma.passwordResetToken.create({
+    data: {
+      token,
+      userId: user.id
+    }
+  });
+
+  await sendEmail(
+    email,
+    "Reset Your Password",
+    ResetPasswordEmailTemplate({ code: token })
+  );
+}
+

@@ -1,13 +1,12 @@
-"use client";
-
-import { useDispatch } from "react-redux";
+"use client"
+import { useIntersection } from "@/shared/hooks/useIntersection";
 import { setActiveId } from "@/shared/store/categorySlice";
 import { ProductWithRelations } from "@/@types/prisma";
+import { AppDispatch } from "@/shared/store/store";
+import { useDispatch } from "react-redux";
 import { useEffect, useRef } from "react";
 import { cn } from "@/shared/lib/utils";
 import { Title, ProductCard } from ".";
-import { AppDispatch } from "@/shared/store/store";
-import { useIntersection } from "@/shared/hooks/useIntersection";
 
 interface Props {
   title: string;
@@ -42,10 +41,10 @@ export const ProductsGroupList = ({
       <div className={cn("grid grid-cols-3 gap-5", listClassName)}>
         {items.map((product) => (
           <ProductCard
-            key={product.id}
             id={product.id}
+            key={product.id}
             name={product.name}
-            price={product.items[0].price}
+            price={product.items[0]?.price ?? 0} 
             imageUrl={product.imageUrl}
             ingredients={product.ingredients}
           />

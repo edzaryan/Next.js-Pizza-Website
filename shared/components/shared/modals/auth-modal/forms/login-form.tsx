@@ -7,7 +7,6 @@ import { signIn } from "next-auth/react";
 import { FormInput } from "../../..";
 import toast from "react-hot-toast";
 import { Title } from "../../..";
-import Image from "next/image";
 
 
 interface Props {
@@ -37,7 +36,7 @@ export const LoginForm = ({ onClose }: Props) => {
             toast.success("You successfully login", { icon: "✅" });
             onClose?.();
         } catch (error) {
-            return toast.error("Failed to log", {  icon: "❌" });
+            return toast.error("Failed to log", { icon: "❌" });
         }
     }
 
@@ -48,17 +47,17 @@ export const LoginForm = ({ onClose }: Props) => {
                     <div className="mr-2">
                         <Title text="Sign In" size="md" className="font-bold uppercase" />
                     </div>
-                    <Image 
+                    <img 
                         src="/assets/images/phone-icon.png" 
+                        className="w-15 h-15" 
                         alt="phone-icon" 
-                        width={60} 
-                        height={60} 
                     />
                 </div>
 
                 <div className="flex flex-col gap-2">
                     <FormInput name="email" label="E-Mail" required />
                     <FormInput name="password" label="Password" type="password" required />
+
                     <Button 
                         loading={form.formState.isSubmitted} 
                         className="h-12 text-base" 
