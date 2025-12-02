@@ -10,6 +10,8 @@ import { Prisma } from "@prisma/client";
 import { cookies } from "next/headers";
 import { hashSync } from "bcrypt";
 import { nanoid } from "nanoid";
+import { Api } from "@/shared/services/api-client";
+import cloudinary from "@/shared/lib/cloudinary";
 
 
 export async function createOrder(data: CheckoutFormValues) {
@@ -240,4 +242,63 @@ export async function resetPasswordWithCode(token: string, newPassword: string) 
     await prisma.passwordResetToken.delete({
         where: { id: existingToken.id }
     });
+}
+
+export async function deleteAccount() {
+  try {
+    const session = await getUserSession();
+    if (!session) throw new Error("User not authenticated");
+
+    const userId = Number(session.id);
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId }
+    });
+
+    if (!user) throw new Error("User not found");
+
+    if (user.imageId) {
+        await deleteCloudinaryImage(user.imageId);
+    }
+
+    await prisma.verificationCode.deleteMany({
+      where: { userId }
+    });
+
+    await prisma.passwordResetToken.deleteMany({
+      where: { userId }
+    });
+
+    await prisma.cartItem.deleteMany({
+      where: {
+        cart: { userId }
+      }
+    });
+
+    await prisma.cart.deleteMany({
+      where: { userId }
+    });
+
+    await prisma.order.updateMany({
+      where: { userId },
+      data: { userId: null }
+    });
+
+    await prisma.user.delete({
+      where: { id: userId }
+    });
+
+    return true;
+  } catch (err) {
+    console.log("[DeleteAccount] Server error", err);
+    throw err;
+  }
+}
+
+export async function deleteCloudinaryImage(publicId: string) {
+    try {
+        await cloudinary.uploader.destroy(publicId);
+    } catch (error) {
+        console.log("Cloudinary delete error:", error);
+    }
 }

@@ -3,18 +3,31 @@ import { formRegisterSchema, TFormRegisterValues } from "./modals/auth-modal/for
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormInput, Title, Container } from ".";
-import { updateUserInfo } from "@/app/actions";
+import { deleteAccount, updateUserInfo } from "@/app/actions";
 import { ProfileImageUploader } from "./form"
 import { signOut } from "next-auth/react";
 import { User } from "@prisma/client";
 import { Button } from "../ui/button";
 import toast from "react-hot-toast";
+import { useState } from "react";
+import { 
+  AlertDialog, 
+  AlertDialogTrigger, 
+  AlertDialogContent, 
+  AlertDialogHeader, 
+  AlertDialogTitle, 
+  AlertDialogDescription, 
+  AlertDialogFooter, 
+  AlertDialogCancel, 
+  AlertDialogAction 
+} from "../ui/alert-dialog";
 
 interface Props {
   data: User;
 }
 
 export function ProfileForm({ data }: Props) {
+    const [isDeleting, setIsDeleting] = useState(false);
     const form = useForm({
         resolver: zodResolver(formRegisterSchema),
         defaultValues: {
@@ -39,9 +52,55 @@ export function ProfileForm({ data }: Props) {
         }
     }
 
-    const onClickSignOut = () => {
-        signOut({ callbackUrl: "/" });
+    const onClickSignOut = async () => {
+      signOut({ callbackUrl: "/" });
     }
+
+    const handleDeleteAccount = async () => {
+      try {
+        setIsDeleting(true);
+        await deleteAccount();
+        await onClickSignOut();
+        toast.success("Your account has been deleted.");
+      } catch (error) {
+        toast.error("Failed to delete account.");
+      } finally {
+        setIsDeleting(false);
+      }
+    }
+
+    const deleteAccountDialog = (
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button
+            loading={isDeleting}
+            variant="destructive"
+            className="w-full bg-primary hover:bg-primary/90 text-[15px]"
+          >
+            Delete Account
+          </Button>
+        </AlertDialogTrigger>
+
+        <AlertDialogContent className="bg-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Account?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action is permanent and cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteAccount}
+              className="bg-primary hover:bg-primary/90"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
 
     return (
       <Container className="my-10">
@@ -60,23 +119,27 @@ export function ProfileForm({ data }: Props) {
                 <FormInput type="password" name="password" label="New Password" required />
                 <FormInput type="password" name="confirmPassword" label="Confirm Password" required />
 
-                <div className="flex flex-col gap-3 mt-5">
+                <div className="flex flex-col gap-3">
                   <Button 
                     disabled={form.formState.isSubmitting} 
-                    className="text-base select-none" 
+                    className="text-base select-none text-[15px]" 
                     type="submit">
                     Save
                   </Button>
-
-                  <Button
-                    onClick={onClickSignOut}
-                    variant="secondary"
-                    disabled={form.formState.isSubmitting}
-                    className="text-base select-none"
-                    type="button">
-                    Sign Out
-                  </Button>
                 </div>
+
+                <hr />
+
+                { deleteAccountDialog }
+
+                <Button
+                  onClick={onClickSignOut}
+                  variant="secondary"
+                  disabled={form.formState.isSubmitting}
+                  className="text-base select-none text-[15px]"
+                  type="button">
+                  Sign Out
+                </Button>
               </form>
             </FormProvider>
           </div>
@@ -84,3 +147,4 @@ export function ProfileForm({ data }: Props) {
     </Container>
   );
 }
+
