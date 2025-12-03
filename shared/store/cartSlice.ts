@@ -15,7 +15,7 @@ const initialState: CartState = {
   items: [],
   error: false,
   loading: false,
-  totalAmount: 0,
+  totalAmount: 0
 };
 
 export const fetchCartItems = createAsyncThunk("cart/fetchCartItems", async () => {

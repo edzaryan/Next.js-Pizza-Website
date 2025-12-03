@@ -31,7 +31,7 @@ export const ProductForm = ({ product, onSubmit }: Props) => {
           productItemId: itemId,
           ingredients,
         })
-      ).unwrap(); // unwraps the thunk promise so we can catch errors
+      ).unwrap();
 
       toast.success(`${product.name} added to cart`);
       onSubmit?.();
@@ -57,5 +57,5 @@ export const ProductForm = ({ product, onSubmit }: Props) => {
       price={firstItem?.price || 0}
       loading={loading}
     />
-  );
-};
+  )
+}

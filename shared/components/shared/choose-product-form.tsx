@@ -13,7 +13,14 @@ interface Props {
     loading?: boolean;
 }
 
-export const ChooseProductForm = ({ className, imageUrl, price, name, onSubmit, loading }: Props) => {
+export const ChooseProductForm = ({ 
+    className, 
+    imageUrl, 
+    price, 
+    name, 
+    onSubmit, 
+    loading 
+}: Props) => {
     return (
         <div className={cn(className, "flex flex-1")}>
             <div className="flex items-center justify-center flex-1 relative w-full">
