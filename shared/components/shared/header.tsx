@@ -1,8 +1,9 @@
 "use client"
-import { AuthModal, ProfileButton, SearchInput, CartButton, Container } from ".";
+import { AuthModal, ProfileButton, SearchInput, Container } from ".";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { cn } from "@/shared/lib/utils";
+import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +13,11 @@ interface Props {
     hasSearch?: boolean;
     hasCart?: boolean;
 }
+
+const CartButton = dynamic(
+    () => import("./cart-button").then(mod => mod.CartButton), 
+    { ssr: false }
+);
 
 export const Header = ({ className, hasSearch = true, hasCart = true }: Props) => {
     const [openAuthModal, setOpenAuthModal] = useState(false);

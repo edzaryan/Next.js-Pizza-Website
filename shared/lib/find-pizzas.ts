@@ -1,5 +1,6 @@
 import { prisma } from "@/prisma/prisma-client";
 
+
 export interface GetSearchParams {
     query?: string;
     sortBy?: string;

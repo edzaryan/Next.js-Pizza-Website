@@ -1,14 +1,9 @@
 "use client";
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetClose,
-} from "../ui/sheet";
+import { Sheet, SheetTrigger, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetClose } from "../ui/sheet";
+import { updateItemQuantity, removeCartItem } from "@/shared/store/cartSlice";
 import { PizzaType, PizzaSize } from "@/shared/constants/pizza";
+import { RootState, AppDispatch } from "@/shared/store/store";
+import { useSelector, useDispatch } from "react-redux";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PropsWithChildren, useState } from "react";
 import { CartDrawerItem } from "./cart-drawer-item";
@@ -17,12 +12,7 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { Title } from ".";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "@/shared/store/store";
-import {
-  updateItemQuantity,
-  removeCartItem,
-} from "@/shared/store/cartSlice";
+
 
 export const CartDrawer = ({ children }: PropsWithChildren) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,11 +22,11 @@ export const CartDrawer = ({ children }: PropsWithChildren) => {
   const onClickCountButton = (id: number, quantity: number, type: "plus" | "minus") => {
     const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
     dispatch(updateItemQuantity({ id, quantity: newQuantity }));
-  };
+  }
 
   const onClickRemoveButton = (id: number) => {
     dispatch(removeCartItem(id));
-  };
+  }
 
   return (
     <Sheet>
@@ -130,5 +120,5 @@ export const CartDrawer = ({ children }: PropsWithChildren) => {
         )}
       </SheetContent>
     </Sheet>
-  );
-};
+  )
+}

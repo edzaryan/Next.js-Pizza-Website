@@ -1,8 +1,14 @@
 import { Container, Filters, Title, TopBar, ProductsGroupList, Stories } from "@/shared/components/shared";
 import { GetSearchParams } from "@/shared/lib/find-pizzas";
 import { findPizzas } from "@/shared/lib/find-pizzas";
+import type { Metadata } from "next";
 import { Suspense } from "react";
 
+
+export const metadata: Metadata = {
+  title: "CRAVEMOOD",
+  description: "Discover your favorite pizzas, snacks, drinks, and desserts — all in one place at CRAVEMOOD"
+}
 
 export default async function Home({ searchParams }: { searchParams: Promise<GetSearchParams> }) {
   const resolvedSearchParams = await searchParams;
@@ -45,5 +51,5 @@ export default async function Home({ searchParams }: { searchParams: Promise<Get
         </div>
       </Container>
     </>
-  );
+  )
 }

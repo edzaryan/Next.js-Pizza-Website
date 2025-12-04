@@ -6,6 +6,7 @@ import { Button } from "../ui";
 import Link from "next/link";
 import { Title } from ".";
 
+
 interface Props {
     id: number;
     name: string;
@@ -15,7 +16,14 @@ interface Props {
     ingredients: Ingredient[];
 }
 
-export const ProductCard = ({ id, name, price, imageUrl, className, ingredients }: Props) => {
+export const ProductCard = ({ 
+    id, 
+    name, 
+    price, 
+    imageUrl, 
+    className, 
+    ingredients 
+}: Props) => {
     return (
         <div className={className}>
             <Link href={`/product/${id}`}>

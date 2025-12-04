@@ -6,6 +6,7 @@ import { CheckoutItem } from "../checkout-item";
 import { WhiteBlock } from "../white-block";
 import { CheckoutItemSkeleton } from "..";
 
+
 interface Props {
     onClickCountButton: (id: number, quantity: number, type: "plus" | "minus") => void;
     removeCartItem: (id: number) => void;
@@ -14,7 +15,13 @@ interface Props {
     className?: string;
 }
 
-export const CheckoutCard = ({ items, className, onClickCountButton, removeCartItem, loading }: Props) => {
+export const CheckoutCard = ({ 
+    items, 
+    className, 
+    onClickCountButton, 
+    removeCartItem, 
+    loading 
+}: Props) => {
     return (
         <WhiteBlock title="1. Cart" className={className}>
             <div className="flex flex-col gap-5">

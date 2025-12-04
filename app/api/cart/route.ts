@@ -23,10 +23,10 @@ export async function GET(req: NextRequest) {
               productItem: {
                 include: { product: true }
               },
-              ingredients: true,
-            },
-          },
-        },
+              ingredients: true
+            }
+          }
+        }
       });
   
       return NextResponse.json(userCart || { totalAmount: 0, items: [] });

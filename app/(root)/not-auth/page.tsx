@@ -1,4 +1,11 @@
 import { InfoBlock } from '@/shared/components';
+import type { Metadata } from "next";
+
+
+export const metadata: Metadata = {
+  title: "CRAVEMOOD | Access Denied",
+  description: "You don't have permission to view this page"
+}
 
 export default function UnauthorizedPage() {
   return (
@@ -9,5 +16,5 @@ export default function UnauthorizedPage() {
         imageUrl="/assets/images/lock.png"
       />
     </div>
-  );
+  )
 }

@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { CreateCartItemValues } from "../services/dto/cart.dto";
+import { CartStateItem } from "../lib/get-cart-details";
 import { Api } from "../services/api-client";
 import { getCartDetails } from "../lib";
-import { CartStateItem } from "../lib/get-cart-details";
+
 
 export interface CartState {
   items: CartStateItem[];
@@ -16,7 +17,7 @@ const initialState: CartState = {
   error: false,
   loading: false,
   totalAmount: 0
-};
+}
 
 export const fetchCartItems = createAsyncThunk("cart/fetchCartItems", async () => {
   const data = await Api.cart.getCart();

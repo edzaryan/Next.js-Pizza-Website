@@ -1,14 +1,21 @@
 "use client"
-import { Provider } from "react-redux";
-import { store } from "@/shared/store/store";
+import { CartInitializer } from "@/shared/components";
 import { SessionProvider } from "next-auth/react";
-import { Toaster } from "react-hot-toast";
+import { store } from "@/shared/store/store";
 import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "react-hot-toast";
+import { Provider } from "react-redux";
+
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
         <Provider store={store}>
-            <SessionProvider>{children}</SessionProvider>
+            <CartInitializer />
+
+            <SessionProvider>
+              {children}
+            </SessionProvider>
+
             <UIProviders />
         </Provider>
     )
