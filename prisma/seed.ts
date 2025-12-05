@@ -1,9 +1,9 @@
-// prisma/seed.ts
 import "dotenv/config";
 import { Prisma } from "@prisma/client";
 import { prisma } from "./prisma-client";
 import { categories, ingredients, products } from "./constants";
 import bcrypt from "bcrypt";
+
 
 const randomInt = (min: number, max: number) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
@@ -27,10 +27,9 @@ const generatePizzaItem = ({
     pizzaType,
     size,
   };
-};
+}
 
 async function up() {
-  // --- USERS ---
   await prisma.user.createMany({
     data: [
       {
@@ -50,15 +49,12 @@ async function up() {
     ],
   });
 
-  // --- CATEGORIES / INGREDIENTS / BASE PRODUCTS ---
   await prisma.category.createMany({ data: categories });
   await prisma.ingredient.createMany({ data: ingredients });
   await prisma.product.createMany({ data: products });
 
-  // Fetch the base (non-pizza) products from DB
   const baseProducts = await prisma.product.findMany();
 
-  // --- PIZZA PRODUCTS WITH INGREDIENT RELATIONS ---
   const pizza1 = await prisma.product.create({
     data: {
       name: "Pepperoni pizza",
@@ -95,7 +91,6 @@ async function up() {
     },
   });
 
-  // --- PRODUCT ITEMS ---
   const pizzaItems: Prisma.ProductItemCreateManyInput[] = [
     // Pizza 1
     generatePizzaItem({ productId: pizza1.id, pizzaType: 1, size: 20 }),
@@ -116,7 +111,6 @@ async function up() {
     generatePizzaItem({ productId: pizza3.id, pizzaType: 2, size: 40 }),
   ];
 
-  // One simple ProductItem for every NON-pizza product
   const simpleProductItems: Prisma.ProductItemCreateManyInput[] = baseProducts.map(
     (p) => ({
       productId: p.id,
@@ -130,7 +124,6 @@ async function up() {
     data: [...pizzaItems, ...simpleProductItems],
   });
 
-  // --- CARTS ---
   await prisma.cart.createMany({
     data: [
       { userId: 1, totalAmount: 0, token: "11111" },
@@ -138,14 +131,13 @@ async function up() {
     ],
   });
 
-  // --- CART ITEMS (just to have something in cart) ---
   await prisma.cartItem.create({
     data: {
-      productItemId: pizzaItems[0].id ?? 1, // you can also fetch a real ProductItem if you want
+      productItemId: pizzaItems[0].id ?? 1,
       cartId: 1,
       quantity: 2,
       ingredients: { connect: [{ id: 1 }, { id: 2 }, { id: 3 }] },
-    },
+    }
   });
 
   // --- STORIES ---
@@ -178,14 +170,41 @@ async function up() {
     ],
   });
 
-  await prisma.storyItem.createMany({
-    data: [
-      // you can keep your current long list here unchanged
-      // I'm not rewriting it just to keep the answer shorter :)
-    ],
+  await prisma.storyItem.createMany({ 
+    data: [ 
+      { storyId: 1, sourceUrl: "https://cdn.inappstory.ru/file/dd/yj/sx/oqx9feuljibke3mknab7ilb35t.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 1, sourceUrl: "https://cdn.inappstory.ru/file/jv/sb/fh/io7c5zarojdm7eus0trn7czdet.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 1, sourceUrl: "https://cdn.inappstory.ru/file/ts/p9/vq/zktyxdxnjqbzufonxd8ffk44cb.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 1, sourceUrl: "https://cdn.inappstory.ru/file/ur/uq/le/9ufzwtpdjeekidqq04alfnxvu2.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 1, sourceUrl: "https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 2, sourceUrl: "https://cdn.inappstory.ru/file/dd/yj/sx/oqx9feuljibke3mknab7ilb35t.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 2, sourceUrl: "https://cdn.inappstory.ru/file/jv/sb/fh/io7c5zarojdm7eus0trn7czdet.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 2, sourceUrl: "https://cdn.inappstory.ru/file/ts/p9/vq/zktyxdxnjqbzufonxd8ffk44cb.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 2, sourceUrl: "https://cdn.inappstory.ru/file/ur/uq/le/9ufzwtpdjeekidqq04alfnxvu2.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 2, sourceUrl: "https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 3, sourceUrl: "https://cdn.inappstory.ru/file/dd/yj/sx/oqx9feuljibke3mknab7ilb35t.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 3, sourceUrl: "https://cdn.inappstory.ru/file/jv/sb/fh/io7c5zarojdm7eus0trn7czdet.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 3, sourceUrl: "https://cdn.inappstory.ru/file/ts/p9/vq/zktyxdxnjqbzufonxd8ffk44cb.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 3, sourceUrl: "https://cdn.inappstory.ru/file/ur/uq/le/9ufzwtpdjeekidqq04alfnxvu2.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 3, sourceUrl: "https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 4, sourceUrl: "https://cdn.inappstory.ru/file/dd/yj/sx/oqx9feuljibke3mknab7ilb35t.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 4, sourceUrl: "https://cdn.inappstory.ru/file/jv/sb/fh/io7c5zarojdm7eus0trn7czdet.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 4, sourceUrl: "https://cdn.inappstory.ru/file/ts/p9/vq/zktyxdxnjqbzufonxd8ffk44cb.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 4, sourceUrl: "https://cdn.inappstory.ru/file/ur/uq/le/9ufzwtpdjeekidqq04alfnxvu2.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 4, sourceUrl: "https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 5, sourceUrl: "https://cdn.inappstory.ru/file/dd/yj/sx/oqx9feuljibke3mknab7ilb35t.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 5, sourceUrl: "https://cdn.inappstory.ru/file/jv/sb/fh/io7c5zarojdm7eus0trn7czdet.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 5, sourceUrl: "https://cdn.inappstory.ru/file/ts/p9/vq/zktyxdxnjqbzufonxd8ffk44cb.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 5, sourceUrl: "https://cdn.inappstory.ru/file/ur/uq/le/9ufzwtpdjeekidqq04alfnxvu2.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 5, sourceUrl: "https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 6, sourceUrl: "https://cdn.inappstory.ru/file/dd/yj/sx/oqx9feuljibke3mknab7ilb35t.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 6, sourceUrl: "https://cdn.inappstory.ru/file/jv/sb/fh/io7c5zarojdm7eus0trn7czdet.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 6, sourceUrl: "https://cdn.inappstory.ru/file/ts/p9/vq/zktyxdxnjqbzufonxd8ffk44cb.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 6, sourceUrl: "https://cdn.inappstory.ru/file/ur/uq/le/9ufzwtpdjeekidqq04alfnxvu2.webp?k=IgAAAAAAAAAE" }, 
+      { storyId: 6, sourceUrl: "https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE" } 
+    ] 
   });
 
-  // --- RECALCULATE CART TOTAL ---
   const cart = await prisma.cart.findFirst({
     where: { id: 1 },
     include: {
