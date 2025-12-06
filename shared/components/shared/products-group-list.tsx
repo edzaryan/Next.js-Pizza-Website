@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react";
 import { cn } from "@/shared/lib/utils";
 import { Title, ProductCard } from ".";
 
+
 interface Props {
   title: string;
   items: ProductWithRelations[];
